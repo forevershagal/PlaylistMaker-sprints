@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@color/white"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="10dp"
+            app:icon="@drawable/ic_left_arrow"
+            app:iconTint="@color/black"
+            android:contentDescription="@string/back_button_description" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/settings"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            android:layout_marginStart="16dp"
+            />
+
+    </LinearLayout>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        style="@style/settings_switch"
+        android:layout_marginTop="24dp"
+        android:text="@string/dark_theme" />
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/settings_textview"
+        android:drawableEnd="@drawable/ic_link"
+        android:text="@string/share_app"
+        android:textColor="@color/black"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/settings_textview"
+        android:drawableEnd="@drawable/ic_support"
+        android:text="@string/support"
+        android:textColor="@color/black"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/settings_textview"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:text="@string/user_agreement"
+        android:textColor="@color/black"
+        />
+
+</LinearLayout>
+
+

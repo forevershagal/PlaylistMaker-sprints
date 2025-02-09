@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="primary_text_size">22sp</dimen>>
+    <dimen name="margin_start"> 16dp </dimen>>
+    <dimen name="margin_end"> 16dp </dimen>>
+    <dimen name="button_radius">16dp</dimen>>
+    <dimen name="margin_button">16dp</dimen>
+    <dimen name="padding_from_edges">16dp</dimen>>
+    <dimen name="padding_icon">8dp</dimen>
+    <dimen name="settings_primary_text_size">16sp</dimen>>
+</resources>
