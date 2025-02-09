@@ -61,6 +61,10 @@
 
         <ImageView
             android:id="@+id/share_icon"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             style="@style/SettingsIconStyle"
             android:contentDescription="@string/share_image_description"
             app:tint="?attr/iconsTintColor"
@@ -87,6 +91,10 @@
         <ImageView
             android:id="@+id/support_icon"
             style="@style/SettingsIconStyle"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:contentDescription="@string/support_image_description"
             app:srcCompat="@drawable/support" />
     </LinearLayout>
@@ -108,6 +116,10 @@
         <ImageView
             android:id="@+id/user_agreement_icon"
             style="@style/SettingsIconStyle"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:contentDescription="@string/user_agreement_image_description"
             app:srcCompat="@drawable/next" />
 
