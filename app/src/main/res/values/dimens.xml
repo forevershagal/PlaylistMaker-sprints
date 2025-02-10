@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="mpbutton_space_height">16dp</dimen>
-    <dimen name="settings_list_item_height">61dp</dimen>
-    <dimen name="settings_list_item_padding_start">16dp</dimen>
-    <dimen name="settings_list_item_padding_end">0dp</dimen>
-</resources>
