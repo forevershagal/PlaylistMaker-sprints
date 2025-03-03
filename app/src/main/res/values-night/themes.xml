@@ -10,5 +10,9 @@
         <item name="searchBarBackground">@color/white</item>
         <item name="searchBarElementColor">@color/alternative_black</item>
         <item name="trackTitle">@color/white</item>
+
+        <item name="android:statusBarColor">@color/alternative_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 </resources>

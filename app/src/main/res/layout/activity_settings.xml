@@ -8,7 +8,9 @@
     android:layout_gravity="end"
     android:background="?attr/backgroundColorSecondary"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_margin="4dp"
+    tools:context=".MainActivity"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -61,11 +63,11 @@
 
         <ImageView
             android:id="@+id/share_icon"
+            style="@style/SettingsIconStyle"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            style="@style/SettingsIconStyle"
             android:contentDescription="@string/share_image_description"
             app:tint="?attr/iconsTintColor"
             app:srcCompat="@drawable/share" />
