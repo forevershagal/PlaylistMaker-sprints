@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.android.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,19 +6,19 @@ import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android.playlistmaker.LibraryActivity
-import com.example.android.playlistmaker.SearchActivity
-import com.example.android.playlistmaker.SettingsActivity
+import com.example.playlistmaker.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : PLMakerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        setStatusBar()
         setButtonActions()
     }
 
-    private fun setButtonActions() {
+    override fun setButtonActions() {
         setSearchButtonAction()
         setLibButtonAction()
         setSettingsButtonAction()
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setLibButtonAction() {
-        val button = findViewById<Button>(R.id.button_library)
+        val button = findViewById<Button>(R.id.library_button)
         button.setOnClickListener {
             val libraryIntent = Intent(this, LibraryActivity::class.java)
             startActivity(libraryIntent)
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSettingsButtonAction() {
-        val button = findViewById<Button>(R.id.button_settings)
+        val button = findViewById<Button>(R.id.settings_button)
         button.setOnClickListener {
             val settingsIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingsIntent)

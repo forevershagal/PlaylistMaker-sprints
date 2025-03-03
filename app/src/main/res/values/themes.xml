@@ -1,9 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="actionBarSize">48dp</item>
     </style>
 
-    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
+    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
+        <item name="buttonTextColor">@color/alternative_black</item>
+        <item name="backgroundColorPrimary">@color/background_blue</item>
+        <item name="backgroundColorSecondary">@color/white</item>
+        <item name="textColorPrimary">@color/alternative_black</item>
+        <item name="iconsTintColor">@color/icon_gray</item>
+        <item name="searchBarBackground">@color/search_bar_background</item>
+        <item name="searchBarElementColor">@color/search_bar_text_color</item>
+        <item name="trackTitle">@color/black</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>
