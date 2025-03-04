@@ -1,3 +1,3 @@
-package com.practicum.playlistmaker
+package com.example.android.playlistmaker
 
 class ITunesResponse(val results: ArrayList<Track>)

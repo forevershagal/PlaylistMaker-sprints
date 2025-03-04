@@ -22,10 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.playlistmaker.MainActivity
 import com.example.playlistmaker.R
-import com.practicum.playlistmaker.ITunesAPI
-import com.practicum.playlistmaker.ITunesResponse
-import com.practicum.playlistmaker.Track
-import com.practicum.playlistmaker.TracksAdapter
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -88,6 +84,9 @@ class SearchActivity : AppCompatActivity() {
 
         trackList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         trackList.adapter = tracksAdapter
+
+        // Отключение скроллинга программно
+        inputEditText.movementMethod = null // <--- Добавлено для отключения скроллинга
 
         if (savedInstanceState != null) {
             editTextValue = savedInstanceState.getString(TEXT_KEY, TEXT_VALUE)

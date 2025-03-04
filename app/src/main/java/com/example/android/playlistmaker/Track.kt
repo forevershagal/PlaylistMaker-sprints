@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.example.android.playlistmaker
 
 data class Track(
     val trackId: Int,
