@@ -15,7 +15,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="13dp"
         android:layout_marginEnd="8dp"
-        app:srcCompat="@drawable/track_avatar"/>
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/track_avatar"
+        />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -37,6 +39,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="14dp"
             android:orientation="horizontal">
 
@@ -44,7 +47,7 @@
                 android:id="@+id/artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+
                 style="@style/TrackCellText.Subtitle"
                 tools:text="The Beatles" />
 

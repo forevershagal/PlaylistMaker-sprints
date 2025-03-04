@@ -9,7 +9,7 @@
     android:background="?attr/backgroundColorSecondary"
     android:orientation="vertical"
     android:layout_margin="4dp"
-    tools:context=".MainActivity"
+    tools:context="com.example.android.playlistmaker.MainActivity"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
