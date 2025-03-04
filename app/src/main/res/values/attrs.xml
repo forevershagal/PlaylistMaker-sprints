@@ -9,5 +9,14 @@
         <attr name="searchBarBackground" format="color" />
         <attr name="searchBarElementColor" format="color" />
         <attr name="trackTitle" format="color" />
+        <attr name="PlaceholderTextColor" format ="color" />
+        <attr name="TrackNameTextColor" format="color" />
+        <attr name="ic_error_color" format="color" />
+        <attr name="ic_no_results_color" format="color" />
+        <attr name="updateButtonBackground" format="reference|color"/>
+        <attr name="updateButtonTextColor" format="reference|color" />
+
+        <attr name="searchBarBackgroundColor" format="color" />
+
     </declare-styleable>
 </resources>

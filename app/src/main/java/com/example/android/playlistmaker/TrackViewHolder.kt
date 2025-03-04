@@ -1,53 +1,36 @@
 package com.example.android.playlistmaker
 
-import android.view.LayoutInflater
+import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.signature.ObjectKey
 import com.example.playlistmaker.R
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class TrackViewHolder private constructor(trackView: View): RecyclerView.ViewHolder(trackView) {
-    private val trackTitle: TextView
-    private val artistName: TextView
-    private val trackTime: TextView
-    private val artwork: ImageView
-    private val trackView = trackView
+class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val trackIcon: ImageView = itemView.findViewById(R.id.trackIcon)
+    private val trackName: TextView = itemView.findViewById(R.id.trackName)
+    private val trackInfo: TextView = itemView.findViewById(R.id.trackInfo)
 
-    init {
-        trackTitle = trackView.findViewById(R.id.track_title)
-        artistName = trackView.findViewById(R.id.artist)
-        trackTime = trackView.findViewById(R.id.track_time)
-        artwork = trackView.findViewById(R.id.track_image)
-    }
-
-    fun bind(model: Track) {
-        trackTitle.text = model.trackName
-        artistName.text = model.artistName
-        trackTime.text = model.trackTime
-        Glide.with(trackView.context)
-            .load(model.artworkUrl100)
-            .placeholder(R.drawable.track_avatar)
-            .fitCenter()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
-            .signature(ObjectKey(System.currentTimeMillis()))
-            .transform(RoundedCorners(2))
-            .into(artwork)
-    }
-
-    companion object {
-        fun from(parent: ViewGroup): TrackViewHolder {
-            val view = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.track_cell, parent,false)
-            return TrackViewHolder(view)
-        }
+    fun bind(item: Track) {
+        Glide.with(itemView).load(item.artworkUrl100).placeholder(R.drawable.track_avatar)
+            .centerCrop().transform(
+                RoundedCorners(
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, 2F, itemView.context.resources.displayMetrics
+                    ).toInt()
+                )
+            ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(trackIcon)
+        trackName.text = item.trackName
+        trackInfo.text = itemView.context.getString(
+            R.string.trackInfo,
+            item.artistName,
+            SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.trackTimeMillis.toLong())
+        )
     }
 }
