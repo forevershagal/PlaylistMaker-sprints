@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
+        <!-- Customize your dark theme here. -->
+        <item name="buttonTextColor">@color/alternative_black</item>
+        <item name="backgroundColorPrimary">@color/alternative_black</item>
+        <item name="backgroundColorSecondary">@color/white</item>
+        <item name="textColorPrimary">@color/white</item>
+        <item name="iconsTintColor">@color/white</item>
+        <item name="searchBarBackground">@color/white</item>
+        <item name="searchBarElementColor">@color/alternative_black</item>
+        <item name="trackTitle">@color/white</item>
+        <item name="PlaceholderTextColor">@color/white</item>
+        <item name="android:backgroundTint">@color/alternative_black</item>
+
+        <item name="android:statusBarColor">@color/alternative_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="updateButtonBackground">@color/white</item>
+        <item name="updateButtonTextColor">@color/alternative_black</item>
+
+        <item name="searchBarBackgroundColor">@color/white</item>
+
+        <item name="ic_error_color">@color/white</item>
+        <item name="ic_no_results_color">@color/white</item>
+
+        <item name="TrackNameTextColor">@color/white</item>
+
+    </style>
+</resources>

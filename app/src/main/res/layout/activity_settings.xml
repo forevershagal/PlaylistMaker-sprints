@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    android:background="?attr/backgroundColorSecondary"
+    android:orientation="vertical"
+    android:layout_margin="4dp"
+    tools:context="com.example.android.playlistmaker.MainActivity"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/settings"
+        style="@style/CustomToolbarStyle"
+        app:titleTextAppearance="@style/ToolbarTextAppearance"
+        app:navigationIconTint="?attr/textColorPrimary"
+        app:navigationIcon="@drawable/arrow_back"/>
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_height="@dimen/settings_list_item_height"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/settings_list_item_padding_start"
+        android:paddingEnd="@dimen/settings_list_item_padding_end"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/SettingsTextStyle"
+            android:text="@string/dark_theme" />
+
+        <Space style="@style/SettingsSpaceStyle" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingEnd="6dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:id="@+id/share_button"
+        android:layout_height="@dimen/settings_list_item_height"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/settings_list_item_padding_start"
+        android:paddingEnd="@dimen/settings_list_item_padding_end" >
+
+        <TextView
+            android:id="@+id/share"
+            style="@style/SettingsTextStyle"
+            android:text="@string/share" />
+
+        <Space
+            style="@style/SettingsSpaceStyle" />
+
+        <ImageView
+            android:id="@+id/share_icon"
+            style="@style/SettingsIconStyle"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:contentDescription="@string/share_image_description"
+            app:tint="?attr/iconsTintColor"
+            app:srcCompat="@drawable/share" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:id="@+id/support_button"
+        android:layout_height="@dimen/settings_list_item_height"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/settings_list_item_padding_start"
+        android:paddingEnd="@dimen/settings_list_item_padding_end" >
+
+        <TextView
+            android:id="@+id/support"
+            style="@style/SettingsTextStyle"
+            android:text="@string/support" />
+
+        <Space
+            style="@style/SettingsSpaceStyle" />
+
+        <ImageView
+            android:id="@+id/support_icon"
+            style="@style/SettingsIconStyle"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:contentDescription="@string/support_image_description"
+            app:srcCompat="@drawable/support" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:id="@+id/user_agreement_button"
+        android:layout_height="@dimen/settings_list_item_height"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/settings_list_item_padding_start"
+        android:paddingEnd="@dimen/settings_list_item_padding_end" >
+
+        <TextView
+            android:id="@+id/user_agreement"
+            style="@style/SettingsTextStyle"
+            android:text="@string/user_agreement" />
+        <Space
+            style="@style/SettingsSpaceStyle" />
+        <ImageView
+            android:id="@+id/user_agreement_icon"
+            style="@style/SettingsIconStyle"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:contentDescription="@string/user_agreement_image_description"
+            app:srcCompat="@drawable/next" />
+
+    </LinearLayout>
+</LinearLayout>

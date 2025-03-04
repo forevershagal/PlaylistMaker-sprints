@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Base.Theme.PlaylistMaker">
+        <attr name="buttonTextColor" format="color" />
+        <attr name="backgroundColorPrimary" format="color" />
+        <attr name="backgroundColorSecondary" format="color" />
+        <attr name="textColorPrimary" format="color" />
+        <attr name="iconsTintColor" format="color" />
+        <attr name="searchBarBackground" format="color" />
+        <attr name="searchBarElementColor" format="color" />
+        <attr name="trackTitle" format="color" />
+        <attr name="PlaceholderTextColor" format ="color" />
+        <attr name="TrackNameTextColor" format="color" />
+        <attr name="ic_error_color" format="color" />
+        <attr name="ic_no_results_color" format="color" />
+        <attr name="updateButtonBackground" format="reference|color"/>
+        <attr name="updateButtonTextColor" format="reference|color" />
+
+        <attr name="searchBarBackgroundColor" format="color" />
+
+    </declare-styleable>
+</resources>
