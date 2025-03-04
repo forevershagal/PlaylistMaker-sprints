@@ -1,30 +1,31 @@
 package com.example.android.playlistmaker
 
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.playlistmaker.SearchActivity
+import com.example.playlistmaker.R
 
-class TracksAdapter (
-) : RecyclerView.Adapter<TrackViewHolder>() {
+class TracksAdapter : RecyclerView.Adapter<TrackViewHolder>() {
 
-    private var tracks = listOf<Track>()
+    var tracks = ArrayList<Track>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-        return TrackViewHolder.from(parent)
-    }
-
-    override fun getItemCount(): Int {
-        return tracks.count()
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.track_item, parent, false)
+        return TrackViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        val item = tracks[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            val searchActivity = SearchActivity()
+
+        }
     }
 
-    fun updateData(tracks: List<Track>) {
-        this.tracks = tracks
-        notifyDataSetChanged()
+    override fun getItemCount(): Int {
+        return tracks.size
     }
 }

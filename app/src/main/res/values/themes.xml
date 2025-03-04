@@ -15,7 +15,17 @@
         <item name="trackTitle">@color/black</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-
         <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="updateButtonBackground">@color/alternative_black</item>
+        <item name="updateButtonTextColor">@color/white</item>
+
+        <item name="searchBarBackgroundColor">@color/search_bar_background_color_lite</item>
+        <item name="PlaceholderTextColor">@color/alternative_black</item>
+
+        <item name="ic_error_color">@color/alternative_black</item>
+        <item name="ic_no_results_color">@color/alternative_black</item>
+
+        <item name="TrackNameTextColor">@color/black</item>
     </style>
 </resources>

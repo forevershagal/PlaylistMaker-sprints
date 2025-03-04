@@ -18,4 +18,10 @@
     <string name="mail_body">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="mail_client_not_found">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="practicum_offer">https://yandex.ru/legal/practicum_offer</string>
+    <string name="something_went_wrong">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="story_tracks">Вы искали</string>
+    <string name="clear_story">Очистить историю</string>
+    <string name="update">Обновить</string>
+    <string name="trackInfo">%1$s • %2$s</string>
 </resources>
