@@ -22,32 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.playlistmaker.MainActivity
 import com.example.playlistmaker.R
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 class SearchActivity : AppCompatActivity() {
     private var editTextValue: String = TEXT_VALUE
-    private val iTunesBaseUrl = "https://itunes.apple.com"
-
-    // Настройка тайм-аутов Retrofit
-    private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(3, TimeUnit.SECONDS) // Тайм-аут соединения
-        .readTimeout(3, TimeUnit.SECONDS)    // Тайм-аут чтения
-        .writeTimeout(3, TimeUnit.SECONDS)   // Тайм-аут записи
-        .build()
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .client(okHttpClient) // Добавляем настроенный клиент
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val itunesService = retrofit.create(ITunesAPI::class.java)
     private var tracks = ArrayList<Track>()
     private val tracksAdapter = TracksAdapter()
 
@@ -99,6 +79,9 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.isVisible = !s.isNullOrEmpty()
                 editTextValue = s.toString()
+                if (s.isNullOrEmpty()) {
+                    showMessage("") // Скрыть заглушку, если текст пустой
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -117,6 +100,7 @@ class SearchActivity : AppCompatActivity() {
             inputEditText.setText("")
             hideSoftKeyboard(it)
             tracks.clear()
+            showMessage("") // Добавлено для скрытия заглушки
         }
 
         toolbarButton.setNavigationOnClickListener {
@@ -136,7 +120,7 @@ class SearchActivity : AppCompatActivity() {
             return
         }
 
-        itunesService.search(inputEditText.text.toString())
+        RetrofitClient.iTunesService.search(inputEditText.text.toString())
             .enqueue(object : Callback<ITunesResponse> {
                 override fun onResponse(
                     call: Call<ITunesResponse>, response: Response<ITunesResponse>
@@ -168,10 +152,6 @@ class SearchActivity : AppCompatActivity() {
             tracksAdapter.notifyDataSetChanged()
             placeholderText.text = text
             when (text) {
-                getString(R.string.something_went_wrong) -> {
-                    placeholderImage.setImageResource(R.drawable.ic_error)
-                    updateButton.visibility = View.VISIBLE
-                }
                 getString(R.string.something_went_wrong) -> {
                     placeholderImage.setImageResource(R.drawable.ic_error)
                     updateButton.visibility = View.VISIBLE
