@@ -7,4 +7,6 @@
     <color name="icon_gray">#AEAFB4</color>
     <color name="search_bar_background">#E6E8EB</color>
     <color name="search_bar_text_color">#AEAFB4</color>
+    <color name="search_bar_background_color_lite">#E6E8EB</color>
+
 </resources>
