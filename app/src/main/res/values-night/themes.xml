@@ -1,7 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
+    <style name="Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
+        <item name="actionBarSize">48dp</item>
         <item name="buttonTextColor">@color/alternative_black</item>
         <item name="backgroundColorPrimary">@color/alternative_black</item>
         <item name="backgroundColorSecondary">@color/white</item>
@@ -26,6 +27,9 @@
         <item name="ic_no_results_color">@color/white</item>
 
         <item name="TrackNameTextColor">@color/white</item>
+
+        <item name="switchTrackColor">@color/switch_track_color_lite</item>
+        <item name="switchThumbColor">@color/switch_thumb_color_lite</item>
 
     </style>
 </resources>

@@ -17,6 +17,7 @@
         <attr name="updateButtonTextColor" format="reference|color" />
 
         <attr name="searchBarBackgroundColor" format="color" />
-
+        <attr name="switchTrackColor" format="color" />
+        <attr name="switchThumbColor" format="color"/>
     </declare-styleable>
 </resources>
