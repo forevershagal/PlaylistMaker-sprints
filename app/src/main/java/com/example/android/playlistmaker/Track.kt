@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.android.playlistmaker
 
 data class Track(val trackId: Int,
                  val trackName: String,

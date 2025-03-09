@@ -27,7 +27,7 @@ import com.example.android.playlistmaker.SearchResponse
 import com.example.android.playlistmaker.TracksAdapter
 import com.example.playlistmaker.R
 import com.example.playlistmaker.SearchHistory
-import com.example.playlistmaker.Track
+import com.example.android.playlistmaker.Track
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -146,7 +146,6 @@ class SearchActivity : AppCompatActivity() {
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // empty
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -155,7 +154,6 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // empty
                 searchTextValue = s.toString()
 
             }
@@ -235,10 +233,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setTrack(track: Track) {
-        val json = Gson().toJson(track)
-        //val trackIntent = Intent(this, PlayerActivity::class.java)
-        //trackIntent.putExtra("TRACK", json)
-        //startActivity(trackIntent)
         searchHistory.addTrackToHistory(track)
     }
 
