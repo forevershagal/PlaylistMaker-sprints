@@ -9,4 +9,8 @@
     <color name="search_bar_text_color">#AEAFB4</color>
     <color name="search_bar_background_color_lite">#E6E8EB</color>
 
+    <color name="switch_track_color_lite">#AEAFB4</color>
+    <color name="switch_thumb_color_lite">#EEEFF4</color>
+    <color name="switch_track_color_dark">#EEEFF4</color>
+    <color name="switch_thumb_color_dark">#AEAFB4</color>
 </resources>

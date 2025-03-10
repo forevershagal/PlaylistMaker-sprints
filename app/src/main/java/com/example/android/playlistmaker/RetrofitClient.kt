@@ -9,9 +9,9 @@ object RetrofitClient {
     private const val BASE_URL = "https://itunes.apple.com"
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(3, TimeUnit.SECONDS) // Тайм-аут соединения
-        .readTimeout(3, TimeUnit.SECONDS)    // Тайм-аут чтения
-        .writeTimeout(3, TimeUnit.SECONDS)   // Тайм-аут записи
+        .connectTimeout(1, TimeUnit.SECONDS) // Тайм-аут соединения
+        .readTimeout(1, TimeUnit.SECONDS)    // Тайм-аут чтения
+        .writeTimeout(1, TimeUnit.SECONDS)   // Тайм-аут записи
         .build()
 
     private val retrofit = Retrofit.Builder()
@@ -20,5 +20,5 @@ object RetrofitClient {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val iTunesService: ITunesAPI = retrofit.create(ITunesAPI::class.java)
+    val iTunesService: ITunesApi = retrofit.create(ITunesApi::class.java)
 }

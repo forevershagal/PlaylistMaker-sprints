@@ -9,7 +9,7 @@
     android:background="?attr/backgroundColorSecondary"
     android:orientation="vertical"
     android:layout_margin="4dp"
-    tools:context=".MainActivity"
+    tools:context="com.example.android.playlistmaker.MainActivity"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -37,12 +37,15 @@
 
         <Space style="@style/SettingsSpaceStyle" />
 
-        <Switch
-            android:id="@+id/switch1"
+        <!-- Исправлено: Используем SwitchCompat вместо Switch -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchThemeButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingEnd="6dp"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            app:trackTint="?attr/switchTrackColor"
+            app:thumbTint="?attr/switchThumbColor"
+            />
     </LinearLayout>
 
     <LinearLayout

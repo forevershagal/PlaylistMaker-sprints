@@ -1,21 +1,25 @@
 package com.example.android.playlistmaker
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import com.example.android.playlistmaker.App
 import com.example.playlistmaker.R
-import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : PLMakerActivityWithToolbar() {
+    companion object {
+        const val SHARED_PREF = "ThemePrefs"
+        const val THEME_KEY = "isDarkTheme"
+    }
+
+    private lateinit var switchThemeButton: SwitchCompat
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -23,6 +27,19 @@ class SettingsActivity : PLMakerActivityWithToolbar() {
         setStatusBar()
         setToolbar()
         setButtonActions()
+
+        // Инициализация SharedPreferences и SwitchCompat
+        sharedPreferences = this.getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
+        switchThemeButton = findViewById(R.id.switchThemeButton)
+
+        // Восстановление состояния темы
+        switchThemeButton.isChecked = this.sharedPreferences.getBoolean(THEME_KEY, false)
+
+        // Обработка изменения состояния SwitchCompat
+        switchThemeButton.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as App).switchTheme(checked)
+            sharedPreferences.edit().putBoolean(THEME_KEY, checked).apply()
+        }
     }
 
     override fun setButtonActions() {
