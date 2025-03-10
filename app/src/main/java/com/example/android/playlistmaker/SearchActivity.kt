@@ -22,12 +22,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.playlistmaker.App.Companion.PLAYLISTMAKER_PREF
-import com.example.android.playlistmaker.ITunesApi
-import com.example.android.playlistmaker.SearchResponse
-import com.example.android.playlistmaker.TracksAdapter
 import com.example.playlistmaker.R
-import com.example.playlistmaker.SearchHistory
-import com.example.android.playlistmaker.Track
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -233,6 +228,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setTrack(track: Track) {
+        val json = Gson().toJson(track)
+        val trackIntent = Intent(this, PlayerActivity::class.java)
+        trackIntent.putExtra("TRACK", json)
+        startActivity(trackIntent)
         searchHistory.addTrackToHistory(track)
     }
 

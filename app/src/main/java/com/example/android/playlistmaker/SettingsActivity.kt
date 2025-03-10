@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
-import com.example.android.playlistmaker.App
 import com.example.playlistmaker.R
 
 class SettingsActivity : PLMakerActivityWithToolbar() {

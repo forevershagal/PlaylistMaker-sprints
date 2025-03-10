@@ -19,5 +19,16 @@
         <attr name="searchBarBackgroundColor" format="color" />
         <attr name="switchTrackColor" format="color" />
         <attr name="switchThumbColor" format="color"/>
+        <attr name="playerIconsTintColor" format="color"/>
+
+
+
+        <attr name="colorIconPrimary" format="color"/>
+        <attr name="colorIconSecondary" format="color"/>
+        <attr name="textColorSecondary" format="color"/>
+        <attr name="cursorColor" format="color"/>
+        <attr name="textColorSearchHint" format="color"/>
+        <attr name="editTextBackgroundColor" format="color"/>
+        <attr name="clearButtonColor" format="color"/>
     </declare-styleable>
 </resources>
