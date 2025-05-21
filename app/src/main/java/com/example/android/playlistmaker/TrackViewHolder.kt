@@ -15,10 +15,13 @@ import java.util.Locale
 class TrackViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.track_cell, parent, false)
 ) {
+
     private val trackName: TextView// Название композиции
     private val artistName: TextView // Имя исполнителя
     private val trackTime: TextView // Продолжительность трека
     private val trackImage: ImageView // Ссылка на изображение обложки
+
+
     init {
         trackName = itemView.findViewById(R.id.track_title)
         artistName = itemView.findViewById(R.id.artist_name)

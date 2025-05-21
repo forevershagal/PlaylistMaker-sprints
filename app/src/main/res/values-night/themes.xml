@@ -41,5 +41,7 @@
         <item name="textColorSearchHint">@color/black_app</item>
         <item name="clearButtonColor">@color/black_app</item>
 
+        <item name="playerIconsMediaColor">@color/white</item>
+
     </style>
 </resources>

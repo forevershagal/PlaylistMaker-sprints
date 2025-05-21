@@ -21,7 +21,7 @@
         <attr name="switchThumbColor" format="color"/>
         <attr name="playerIconsTintColor" format="color"/>
 
-
+        <attr name="playerIconsMediaColor" format="color"/>
 
         <attr name="colorIconPrimary" format="color"/>
         <attr name="colorIconSecondary" format="color"/>
