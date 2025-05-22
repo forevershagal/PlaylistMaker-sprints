@@ -43,5 +43,7 @@
         <item name="editTextBackgroundColor">@color/edittext_background</item>
         <item name="textColorSearchHint">@color/grey</item>
         <item name="clearButtonColor">@color/clear_button_color</item>
+
+        <item name="playerIconsMediaColor">@color/alternative_black</item>
     </style>
 </resources>

@@ -9,9 +9,9 @@ object RetrofitClient {
     private const val BASE_URL = "https://itunes.apple.com"
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(1, TimeUnit.SECONDS) // Тайм-аут соединения
-        .readTimeout(1, TimeUnit.SECONDS)    // Тайм-аут чтения
-        .writeTimeout(1, TimeUnit.SECONDS)   // Тайм-аут записи
+//        .connectTimeout(1, TimeUnit.SECONDS) // Тайм-аут соединения
+//        .readTimeout(1, TimeUnit.SECONDS)    // Тайм-аут чтения
+//        .writeTimeout(1, TimeUnit.SECONDS)   // Тайм-аут записи
         .build()
 
     private val retrofit = Retrofit.Builder()

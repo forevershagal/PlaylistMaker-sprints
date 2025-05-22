@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatDelegate
 class App : Application() {
     lateinit var sharedPrefs: SharedPreferences
     private var darkTheme = false
+
+
     companion object {
         const val PLAYLISTMAKER_PREF = "switchTheme"
         const val NIGHT_MODE = "themeMode"

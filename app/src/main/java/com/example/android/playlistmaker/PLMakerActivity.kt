@@ -10,6 +10,7 @@ import com.example.playlistmaker.R
 import com.google.android.material.appbar.MaterialToolbar
 
 abstract class PLMakerActivity : AppCompatActivity() {
+
     abstract protected fun setButtonActions()
 
     protected fun setStatusBar() {

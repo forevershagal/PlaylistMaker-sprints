@@ -8,11 +8,12 @@ class TracksAdapter(
 ) : RecyclerView.Adapter<TrackViewHolder> () {
 
     private var trackList: MutableList<Track> = mutableListOf()
+
     fun updateData(newTrackList: MutableList<Track>){
         trackList = newTrackList
         notifyDataSetChanged()
-
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         return TrackViewHolder(parent)
     }
@@ -25,6 +26,8 @@ class TracksAdapter(
         }
     }
 
-    override fun getItemCount() = trackList.size
+    override fun getItemCount(): Int {
+        return trackList.size
+    }
 
 }

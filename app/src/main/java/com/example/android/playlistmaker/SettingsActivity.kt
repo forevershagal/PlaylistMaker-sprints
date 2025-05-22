@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import com.example.playlistmaker.R
+import androidx.core.net.toUri
 
 class SettingsActivity : PLMakerActivityWithToolbar() {
     companion object {
@@ -89,7 +90,7 @@ class SettingsActivity : PLMakerActivityWithToolbar() {
         val url = getString(R.string.practicum_offer)
 
         button.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             startActivity(intent)
         }
     }

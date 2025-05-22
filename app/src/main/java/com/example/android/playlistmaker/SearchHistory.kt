@@ -4,7 +4,9 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 
 class SearchHistory(private var sharedPref: SharedPreferences) {
-    companion object{
+
+
+    companion object {
         const val HISTORY_LIST = "history_list"
         const val HISTORY_SIZE = 10
     }

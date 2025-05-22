@@ -3,6 +3,8 @@ package com.example.android.playlistmaker
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,9 +30,6 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var inputEditText: EditText
@@ -38,34 +38,35 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchHistory: SearchHistory
     private lateinit var sharedPref: SharedPreferences
     private lateinit var recycler: RecyclerView
+    private lateinit var progressBar: ProgressBar
+
+    private val handler = Handler(Looper.getMainLooper())
+    private val searchRunnable = Runnable { search() }
 
     private var searchTextValue: String = SEARCH_TEXT_VALUE
 
     companion object {
         const val SEARCH_TEXT_VALUE = ""
         const val SEARCH_TEXT_KEY = "SEARCH TEXT"
-    }
-    enum class CodeError {
-        GOOD,
-        NORESULT,
-        BADCONNECTION
+        private const val CLICK_DEBOUNCE_DELAY = 1_000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2_000L
     }
 
-    private val iTunesBaseUrl = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val iTunesService = retrofit.create(ITunesApi::class.java)
+    enum class CodeError {
+        GOOD,
+        NO_RESULT,
+        BAD_CONNECTION
+    }
+
+    private val iTunesService = RetrofitClient.iTunesService
     private val trackList: MutableList<Track> = mutableListOf()
+
     private lateinit var errorPage: LinearLayout
     private lateinit var errorImage: ImageView
     private lateinit var errorText: TextView
     private lateinit var errorButton: Button
     private lateinit var searchHistoryHeader: TextView
     private lateinit var searchHistoryClearButton: Button
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,6 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-
         val clearButton = findViewById<ImageView>(R.id.clear_button)
         val backButton = findViewById<Toolbar>(R.id.toolbar)
         recycler = findViewById(R.id.tracks_list)
@@ -86,6 +86,7 @@ class SearchActivity : AppCompatActivity() {
         errorImage = findViewById(R.id.placeholderImage)
         errorText = findViewById(R.id.placeholderText)
         errorButton = findViewById(R.id.updateButton)
+        progressBar = findViewById(R.id.progressBar)
         sharedPref = getSharedPreferences(PLAYLISTMAKER_PREF, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPref)
         searchHistory.getSavedHistory()
@@ -145,68 +146,78 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.isVisible = !s.isNullOrEmpty()
+                searchTextValue = s.toString()
+                searchDebounce() // Вызываем отложенный поиск
                 setHistoryVisibility(inputEditText.hasFocus() && s?.isEmpty() == true)
             }
 
             override fun afterTextChanged(s: Editable?) {
-                searchTextValue = s.toString()
-
+                // searchTextValue уже установлено в onTextChanged
             }
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
-
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH_TEXT_KEY, searchTextValue)
-
-
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         searchTextValue = savedInstanceState.getString(SEARCH_TEXT_KEY, SEARCH_TEXT_VALUE)
         inputEditText.setText(searchTextValue)
+    }
 
-
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        if (inputEditText.text.isNotEmpty()) {
+            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        }
     }
 
     private fun search() {
-        iTunesService.search(inputEditText.text.toString())
-            .enqueue(object : Callback<SearchResponse> {
-                override fun onResponse(
-                    call: Call<SearchResponse>,
-                    response: Response<SearchResponse>
-                ) {
+        if (inputEditText.text.isNotEmpty()) {
+            progressBar.visibility = View.VISIBLE // Показываем индикатор загрузки
+            recycler.visibility = View.GONE // Скрываем список треков во время загрузки
+            errorPage.isVisible = false // Скрываем сообщение об ошибке
+            searchHistoryHeader.visibility = View.GONE // Скрываем заголовок истории
+            searchHistoryClearButton.visibility = View.GONE // Скрываем кнопку очистки истории
 
-                    if (response.isSuccessful) {
-                        val responseTracks = response.body()?.results
-                        if (responseTracks.isNullOrEmpty()) {
-                            showPlaceholder(CodeError.NORESULT)
-                            searchHistoryHeader.visibility = View.GONE
-                            searchHistoryClearButton.visibility = View.GONE
-                            recycler.visibility = View.GONE
+            iTunesService.search(inputEditText.text.toString())
+                .enqueue(object : Callback<SearchResponse> {
+                    override fun onResponse(
+                        call: Call<SearchResponse>,
+                        response: Response<SearchResponse>
+                    ) {
+                        progressBar.visibility = View.GONE // Скрываем индикатор загрузки
 
+                        if (response.isSuccessful) {
+                            val responseTracks = response.body()?.results
+                            if (responseTracks.isNullOrEmpty()) {
+                                showPlaceholder(CodeError.NO_RESULT)
+                            } else {
+                                showPlaceholder(CodeError.GOOD)
+                                responseTracks.let { searchAdapter.updateData(it) }
+                                recycler.visibility = View.VISIBLE
+                            }
                         } else {
-                            showPlaceholder(CodeError.GOOD)
-                            responseTracks.let { searchAdapter.updateData(it) }
-                            recycler.visibility = View.VISIBLE
+                            showPlaceholder(CodeError.BAD_CONNECTION)
                         }
                     }
-                }
 
-                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                    showPlaceholder(CodeError.BADCONNECTION)
-                }
-            })
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        progressBar.visibility = View.GONE // Скрываем индикатор загрузки
+                        showPlaceholder(CodeError.BAD_CONNECTION)
+                    }
+                })
+        }
     }
 
     private fun showPlaceholder(code: CodeError) {
         when (code) {
             CodeError.GOOD -> errorPage.isVisible = false
-            CodeError.NORESULT -> {
+            CodeError.NO_RESULT -> {
                 trackList.clear()
                 searchAdapter.updateData(trackList)
                 errorPage.isVisible = true
@@ -215,7 +226,7 @@ class SearchActivity : AppCompatActivity() {
                 errorButton.isVisible = false
             }
 
-            CodeError.BADCONNECTION -> {
+            CodeError.BAD_CONNECTION -> {
                 trackList.clear()
                 searchAdapter.updateData(trackList)
                 errorPage.isVisible = true
@@ -223,7 +234,6 @@ class SearchActivity : AppCompatActivity() {
                 errorText.text = getString(R.string.something_went_wrong)
                 errorButton.isVisible = true
             }
-
         }
     }
 
@@ -248,6 +258,4 @@ class SearchActivity : AppCompatActivity() {
             recycler.adapter = searchAdapter
         }
     }
-
-
 }

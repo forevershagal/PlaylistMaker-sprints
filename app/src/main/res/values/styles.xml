@@ -67,6 +67,7 @@
     </style>
 
     <style name="TrackCellText.Subtitle">
+        <item name="android:singleLine">true</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">?attr/iconsTintColor</item>
     </style>
