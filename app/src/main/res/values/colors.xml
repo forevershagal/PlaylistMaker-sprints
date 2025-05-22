@@ -22,6 +22,15 @@
 
     <color name="switch_track_color_lite">#AEAFB4</color>
     <color name="switch_thumb_color_lite">#EEEFF4</color>
-    <color name="switch_track_color_dark">#EEEFF4</color>
-    <color name="switch_thumb_color_dark">#AEAFB4</color>
+    <color name="switch_track_color_dark">#9FBBF3</color>
+    <color name="switch_thumb_color_dark">#3772E7</color>
+
+
+    <color name="black_for_other">#000000</color>
+    <color name="black_for_settings">#1A1B22</color>
+    <color name="text_color_hint">#AEAFB4</color>
+    <color name="edit_text_grey">#E6E8EB</color>
+    <color name="grey2">#401A1B22</color>
+    <color name="white2">#40FFFFFF</color>
+    <color name="blue2">#3772E7</color>
 </resources>

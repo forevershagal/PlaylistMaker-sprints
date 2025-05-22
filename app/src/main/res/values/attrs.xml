@@ -30,5 +30,7 @@
         <attr name="textColorSearchHint" format="color"/>
         <attr name="editTextBackgroundColor" format="color"/>
         <attr name="clearButtonColor" format="color"/>
+
+        <attr name="colorIconArrowBack" format="color"/>
     </declare-styleable>
 </resources>
