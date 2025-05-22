@@ -1,4 +1,4 @@
-package com.example.android.playlistmaker
+package com.example.android.playlistmaker.presentation.settings
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -10,11 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import com.example.playlistmaker.R
 import androidx.core.net.toUri
+import com.example.android.playlistmaker.app.App
+import com.example.android.playlistmaker.app.Constants
+import com.example.android.playlistmaker.presentation.main.PLMakerActivityWithToolbar
 
 class SettingsActivity : PLMakerActivityWithToolbar() {
     companion object {
         const val SHARED_PREF = "ThemePrefs"
-        const val THEME_KEY = "isDarkTheme"
     }
 
     private lateinit var switchThemeButton: SwitchCompat
@@ -33,12 +35,12 @@ class SettingsActivity : PLMakerActivityWithToolbar() {
         switchThemeButton = findViewById(R.id.switchThemeButton)
 
         // Восстановление состояния темы
-        switchThemeButton.isChecked = this.sharedPreferences.getBoolean(THEME_KEY, false)
+        switchThemeButton.isChecked = this.sharedPreferences.getBoolean(Constants.DARK_THEME, false)
 
         // Обработка изменения состояния SwitchCompat
         switchThemeButton.setOnCheckedChangeListener { _, checked ->
             (applicationContext as App).switchTheme(checked)
-            sharedPreferences.edit().putBoolean(THEME_KEY, checked).apply()
+            sharedPreferences.edit().putBoolean(Constants.DARK_THEME, checked).apply()
         }
     }
 

@@ -29,7 +29,6 @@
         <item name="playerIconsTintColor">@color/metallic_grey</item>
 
         <item name="colorPrimary">@color/blue</item>
-        <item name="textColorPrimary">@color/white</item>
         <item name="colorIconPrimary">@color/black_app</item>
         <item name="colorPrimaryVariant">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -45,5 +44,7 @@
         <item name="clearButtonColor">@color/clear_button_color</item>
 
         <item name="playerIconsMediaColor">@color/alternative_black</item>
+
+        <item name="colorIconArrowBack">@color/alternative_black</item>
     </style>
 </resources>

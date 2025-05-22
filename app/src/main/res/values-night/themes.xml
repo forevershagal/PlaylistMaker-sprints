@@ -22,15 +22,15 @@
         <item name="ic_error_color">@color/white</item>
         <item name="ic_no_results_color">@color/white</item>
         <item name="TrackNameTextColor">@color/white</item>
-        <item name="switchTrackColor">@color/switch_track_color_lite</item>
-        <item name="switchThumbColor">@color/switch_thumb_color_lite</item>
+        <item name="switchTrackColor">@color/switch_track_color_dark</item> ////
+        <item name="switchThumbColor">@color/switch_thumb_color_dark</item>
 
         <item name="colorPrimary">@color/black_app</item>
         <item name="textColorPrimary">@color/white</item>
         <item name="colorIconPrimary">@color/black_app</item>
         <item name="colorPrimaryVariant">@color/black_app</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/black_app</item>
+        <item name="colorSecondary">@color/white</item>
         <item name="textColorSecondary">@color/white</item>
         <item name="colorIconSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/black_app</item>
@@ -42,6 +42,8 @@
         <item name="clearButtonColor">@color/black_app</item>
 
         <item name="playerIconsMediaColor">@color/white</item>
+        <item name="colorIconArrowBack">@color/white</item>
+
 
     </style>
 </resources>
