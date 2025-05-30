@@ -1,46 +1,37 @@
 package com.example.android.playlistmaker.presentation.audio_player
 
 import android.annotation.SuppressLint
-import android.media.MediaPlayer
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.android.playlistmaker.data.PlayerState
 import com.example.playlistmaker.R
-import java.text.SimpleDateFormat
-import java.time.OffsetDateTime
-import java.util.Date
+import com.example.android.playlistmaker.data.MediaPlayerManager
+import com.example.android.playlistmaker.domain.api.AudioPlayer
+import com.example.android.playlistmaker.presentation.search_track.SearchActivity
 import java.util.Locale
+import java.time.OffsetDateTime
 
 class PlayerActivity : AppCompatActivity() {
 
-    companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
-    }
-
-    private var playerState = STATE_DEFAULT
-    private var mediaPlayer = MediaPlayer()
-    private var prepared = false
-
-    private lateinit var timePlay: TextView
-    private var mainThreadHandler: Handler? = null
+    private val audioPlayer: AudioPlayer = MediaPlayerManager()
+    private val mainHandler = Handler(Looper.getMainLooper())
     private var updateRunnable: Runnable? = null
 
-    private lateinit var toolbarPlayer: androidx.appcompat.widget.Toolbar
     private lateinit var playButton: ImageView
+    private lateinit var timePlay: TextView
+
     private lateinit var trackName: TextView
     private lateinit var artistName: TextView
-    private lateinit var trackDuration: TextView
     private lateinit var trackDurationValue: TextView
     private lateinit var collectionValue: TextView
     private lateinit var releaseDateValue: TextView
@@ -58,37 +49,20 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var country: String
     private lateinit var previewUrl: String
 
-    @SuppressLint("WrongViewCast", "MissingInflatedId")
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        toolbarPlayer = findViewById(R.id.toolbar_player)
         playButton = findViewById(R.id.play_button)
         timePlay = findViewById(R.id.time_play)
-        mainThreadHandler = Handler(Looper.getMainLooper())
 
-        mediaPlayer = MediaPlayer().apply {
-            setOnPreparedListener {
-                prepared = true
-                playButton.isEnabled = true
-                playerState = STATE_PREPARED
-                updatePlayButtonIcon()
-            }
-            setOnCompletionListener {
-                playerState = STATE_PREPARED
-                stopUpdatingTime()
-                timePlay.text = "00:00"
-                updatePlayButtonIcon()
-            }
-        }
-
-        // Инициализация TextView
         trackName = findViewById(R.id.track_name)
         artistName = findViewById(R.id.artist_name)
         trackDurationValue = findViewById(R.id.track_duration_value)
@@ -98,10 +72,14 @@ class PlayerActivity : AppCompatActivity() {
         countryValue = findViewById(R.id.country_value)
         trackImage = findViewById(R.id.track_image)
 
-        // Получение данных из Intent
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_player)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Получение данных из Intent или savedInstanceState
         trackNameText = intent.getStringExtra("trackName") ?: "Unknown Track"
         artistNameText = intent.getStringExtra("artistName") ?: "Unknown Artist"
-//      rackDurationMillis = intent.getStringExtra("trackDuration")?.toLongOrNull() ?: 0
         val durationString = intent.getStringExtra("trackDuration") ?: "00:00"
         trackDurationMillis = parseTimeStringToMillis(durationString)
         artworkUrl = intent.getStringExtra("artworkUrl") ?: ""
@@ -111,26 +89,33 @@ class PlayerActivity : AppCompatActivity() {
         country = intent.getStringExtra("country") ?: "Unknown Country"
         previewUrl = intent.getStringExtra("previewUrl") ?: ""
 
-        Log.d("PlayerDebug", "Data from Intent -> " +
-                "Track: $trackNameText, " +
-                "Artist: $artistNameText, " +
-                "Duration (ms): $trackDurationMillis, " +
-                "Artwork: $artworkUrl"
-        )
-
-        Log.d("PlayerDebug", "Intent extras: ${intent.extras?.keySet()?.joinToString()}")
-        Log.d("PlayerDebug", "trackDuration value: ${intent.getStringExtra("trackDuration")}")
-
         updateUI()
-        preparePlayer()
+
+        audioPlayer.setOnPreparedListener {
+            playButton.isEnabled = true
+            updatePlayButtonIcon()
+        }
+
+        audioPlayer.setOnCompletionListener {
+            stopUpdatingTime()
+            timePlay.text = "00:00"
+            updatePlayButtonIcon()
+        }
+
+        audioPlayer.prepare(previewUrl)
 
         playButton.setOnClickListener {
-            playbackControl()
+            when (audioPlayer.getPlayerState()) {
+                PlayerState.PLAYING -> pausePlayer()
+                PlayerState.PREPARED, PlayerState.PAUSED -> startPlayer()
+                else -> audioPlayer.prepare(previewUrl)
+            }
         }
 
-        toolbarPlayer.setNavigationOnClickListener {
-            finish()
+        toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
+
     }
 
     private fun updateUI() {
@@ -138,7 +123,11 @@ class PlayerActivity : AppCompatActivity() {
         artistName.text = artistNameText
         trackDurationValue.text = formatDuration(trackDurationMillis)
         collectionValue.text = collectionName
-        releaseDateValue.text = OffsetDateTime.parse(releaseDate).year.toString()
+        releaseDateValue.text = try {
+            OffsetDateTime.parse(releaseDate).year.toString()
+        } catch (e: Exception) {
+            releaseDate
+        }
         genreValue.text = primaryGenreName
         countryValue.text = country
 
@@ -154,7 +143,6 @@ class PlayerActivity : AppCompatActivity() {
         return artworkUrl.replaceAfterLast('/', "512x512bb.jpg")
     }
 
-
     private fun formatDuration(durationMillis: Long): String {
         val seconds = durationMillis / 1000
         val minutes = seconds / 60
@@ -162,32 +150,51 @@ class PlayerActivity : AppCompatActivity() {
         return String.format(Locale.getDefault(), "%02d:%02d", minutes, remainingSeconds)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("trackName", trackNameText)
-        outState.putString("artistName", artistNameText)
-        outState.putLong("trackDuration", trackDurationMillis)
-        outState.putString("artworkUrl", artworkUrl)
-        outState.putString("collectionName", collectionName)
-        outState.putString("releaseDate", releaseDate)
-        outState.putString("primaryGenreName", primaryGenreName)
-        outState.putString("country", country)
-        outState.putString("previewUrl", previewUrl)
+    private fun startPlayer() {
+        audioPlayer.play()
+        updatePlayButtonIcon()
+        startUpdatingTime()
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        trackNameText = savedInstanceState.getString("trackName") ?: "Unknown Track"
-        artistNameText = savedInstanceState.getString("artistName") ?: "Unknown Artist"
-        trackDurationMillis = savedInstanceState.getLong("trackDuration", 0)
+    private fun pausePlayer() {
+        audioPlayer.pause()
+        updatePlayButtonIcon()
+        stopUpdatingTime()
+    }
 
-        artworkUrl = savedInstanceState.getString("artworkUrl") ?: ""
-        collectionName = savedInstanceState.getString("collectionName") ?: "Unknown Album"
-        releaseDate = savedInstanceState.getString("releaseDate") ?: "Unknown Year"
-        primaryGenreName = savedInstanceState.getString("primaryGenreName") ?: "Unknown Genre"
-        country = savedInstanceState.getString("country") ?: "Unknown Country"
-        previewUrl = savedInstanceState.getString("previewUrl") ?: ""
-        updateUI()
+    private fun updatePlayButtonIcon() {
+        val state = audioPlayer.getPlayerState()
+        playButton.setImageResource(
+            if (state == PlayerState.PLAYING) R.drawable.pause_button else R.drawable.play_button
+        )
+    }
+
+    private fun startUpdatingTime() {
+        updateRunnable = object : Runnable {
+            override fun run() {
+                if (audioPlayer.isPlaying()) {
+                    val currentPosition = audioPlayer.getCurrentPosition()
+                    timePlay.text = formatDuration(currentPosition.toLong())
+                    mainHandler.postDelayed(this, 300)
+                }
+            }
+        }
+        mainHandler.post(updateRunnable!!)
+    }
+
+    private fun stopUpdatingTime() {
+        updateRunnable?.let { mainHandler.removeCallbacks(it) }
+    }
+
+    private fun parseTimeStringToMillis(timeString: String): Long {
+        val parts = timeString.split(":")
+        return if (parts.size == 2) {
+            val minutes = parts[0].toIntOrNull() ?: 0
+            val seconds = parts[1].toIntOrNull() ?: 0
+            ((minutes * 60 + seconds) * 1000).toLong()
+        } else {
+            0
+        }
     }
 
     override fun onPause() {
@@ -197,84 +204,7 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         stopUpdatingTime()
-        updateRunnable?.let { mainThreadHandler?.removeCallbacks(it) }
+        audioPlayer.release()
         super.onDestroy()
-        mediaPlayer.release()
-    }
-
-    private fun playbackControl() {
-        when(playerState) {
-            STATE_PLAYING -> pausePlayer()
-            STATE_PREPARED, STATE_PAUSED -> startPlayer()
-        }
-    }
-
-    private fun preparePlayer() {
-        mediaPlayer.setDataSource(previewUrl)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            playButton.isEnabled = true
-            playerState = STATE_PREPARED
-            updatePlayButtonIcon()
-        }
-        mediaPlayer.setOnCompletionListener {
-            playerState = STATE_PREPARED
-            stopUpdatingTime()
-            timePlay.text = "00:00"
-            updatePlayButtonIcon()
-        }
-    }
-
-    private fun startPlayer() {
-        mediaPlayer.start()
-        playerState = STATE_PLAYING
-        updatePlayButtonIcon()
-        createUpdateTimeRunnable()
-        updateRunnable?.let { mainThreadHandler?.post(it) }
-    }
-
-    private fun pausePlayer() {
-        mediaPlayer.pause()
-        playerState = STATE_PAUSED
-        updatePlayButtonIcon()
-        stopUpdatingTime()
-    }
-
-    private fun updatePlayButtonIcon() {
-        playButton.setImageResource(
-            when (playerState) {
-                STATE_PLAYING -> R.drawable.pause_button // Убедитесь, что у вас есть этот drawable
-                else -> R.drawable.play_button
-            }
-        )
-    }
-
-    private fun createUpdateTimeRunnable() {
-        updateRunnable = object : Runnable {
-            override fun run() {
-                if (mediaPlayer.isPlaying) {
-                    val currentPosition = mediaPlayer.currentPosition
-                    val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(Date(currentPosition.toLong()))
-                    timePlay.text = formattedTime
-                    mainThreadHandler?.postDelayed(this, 300)
-                }
-            }
-        }
-    }
-
-    private fun stopUpdatingTime() {
-        updateRunnable?.let { mainThreadHandler?.removeCallbacks(it) }
-    }
-
-    private fun parseTimeStringToMillis(timeString: String): Long {
-        val parts = timeString.split(":")
-        if (parts.size == 2) {
-            val minutes = parts[0].toInt()
-            val seconds = parts[1].toInt()
-            return ((minutes * 60 + seconds) * 1000).toLong()
-        }
-        return 0
     }
 }
-
-

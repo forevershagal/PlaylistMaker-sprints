@@ -2,7 +2,6 @@ package com.example.android.playlistmaker.presentation.settings
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -10,17 +9,16 @@ import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import com.example.playlistmaker.R
 import androidx.core.net.toUri
-import com.example.android.playlistmaker.app.App
 import com.example.android.playlistmaker.app.Constants
 import com.example.android.playlistmaker.presentation.main.PLMakerActivityWithToolbar
+import com.example.android.playlistmaker.Creator
+import com.example.android.playlistmaker.app.App
+import com.example.android.playlistmaker.domain.api.ThemeInteractor
 
 class SettingsActivity : PLMakerActivityWithToolbar() {
-    companion object {
-        const val SHARED_PREF = "ThemePrefs"
-    }
 
     private lateinit var switchThemeButton: SwitchCompat
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var themeInteractor: ThemeInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,17 +28,19 @@ class SettingsActivity : PLMakerActivityWithToolbar() {
         setToolbar()
         setButtonActions()
 
-        // Инициализация SharedPreferences и SwitchCompat
-        sharedPreferences = this.getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
+        // Получаем интерактор темы из Creator
+        themeInteractor = Creator.provideThemeInteractor()
+
         switchThemeButton = findViewById(R.id.switchThemeButton)
 
-        // Восстановление состояния темы
-        switchThemeButton.isChecked = this.sharedPreferences.getBoolean(Constants.DARK_THEME, false)
+        // Восстановление состояния темы из интерактора
+        switchThemeButton.isChecked = themeInteractor.isDarkThemeEnabled()
 
-        // Обработка изменения состояния SwitchCompat
+        // Обработка переключения темы — вызываем интерактор
         switchThemeButton.setOnCheckedChangeListener { _, checked ->
+            themeInteractor.setDarkThemeEnabled(checked)
             (applicationContext as App).switchTheme(checked)
-            sharedPreferences.edit().putBoolean(Constants.DARK_THEME, checked).apply()
+            recreate()
         }
     }
 

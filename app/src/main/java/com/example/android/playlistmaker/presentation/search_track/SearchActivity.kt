@@ -98,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
 
         // Интеракторы
         tracksInteractor = Creator.provideTracksInteractor()
-        searchHistoryInteractor = Creator.provideSearchHistoryInteractor(this)
+        searchHistoryInteractor = Creator.provideSearchHistoryInteractor()
 
         // Адаптеры
         trackAdapter = TrackAdapter(emptyList(), ::onTrackClicked)
