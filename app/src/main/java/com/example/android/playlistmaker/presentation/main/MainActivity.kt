@@ -1,10 +1,13 @@
-package com.example.android.playlistmaker
+package com.example.android.playlistmaker.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
+import com.example.android.playlistmaker.presentation.media_library.LibraryActivity
+import com.example.android.playlistmaker.presentation.search_track.SearchActivity
+import com.example.android.playlistmaker.presentation.settings.SettingsActivity
 import com.example.playlistmaker.R
 
 class MainActivity : PLMakerActivity() {

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSecondary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".PlayerActivity">
@@ -145,6 +146,7 @@
             android:layout_marginTop="30dp"
             android:text="@string/song_duration"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/leftBorder"
             app:layout_constraintTag="track_duration_tag"
             app:layout_constraintTop_toBottomOf="@id/time_play" />
 
@@ -153,6 +155,7 @@
             style="@style/Track_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rightBorder"
             app:layout_constraintBaseline_toBaselineOf="@id/track_duration"
             tools:text="5:35" />
 
@@ -170,6 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/collection"
+            app:layout_constraintStart_toStartOf="@id/leftBorder"
             app:layout_constraintTag="collection_tag"
             app:layout_constraintTop_toBottomOf="@+id/track_duration" />
 
@@ -178,6 +182,7 @@
             style="@style/Track_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rightBorder"
             app:layout_constraintBaseline_toBaselineOf="@id/collection"
             tools:text="Yesterday (Remastered 2009)" />
 
@@ -188,6 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/releaseDate"
+            app:layout_constraintStart_toStartOf="@id/leftBorder"
             app:layout_constraintTag="release_date_tag"
             app:layout_constraintTop_toBottomOf="@+id/collection" />
 
@@ -196,6 +202,7 @@
             style="@style/Track_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rightBorder"
             app:layout_constraintBaseline_toBaselineOf="@id/release_date"
             tools:text="1965" />
 
@@ -206,6 +213,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/genre_name"
+            app:layout_constraintStart_toStartOf="@id/leftBorder"
             app:layout_constraintTag="genre_tag"
             app:layout_constraintTop_toBottomOf="@id/release_date" />
 
@@ -214,6 +222,7 @@
             style="@style/Track_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rightBorder"
             app:layout_constraintBaseline_toBaselineOf="@id/genre"
             tools:text="Rock" />
 
@@ -224,6 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/country"
+            app:layout_constraintStart_toStartOf="@id/leftBorder"
             app:layout_constraintTag="country_tag"
             app:layout_constraintTop_toBottomOf="@+id/genre" />
 
@@ -232,6 +242,7 @@
             style="@style/Track_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rightBorder"
             app:layout_constraintBaseline_toBaselineOf="@id/country"
             tools:text="Великобритания"
             android:paddingBottom="20dp"/>
