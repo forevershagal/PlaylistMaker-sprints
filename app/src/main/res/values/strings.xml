@@ -9,6 +9,7 @@
     <string name="share_image_description">Иконка "поделиться"</string>
     <string name="support">Написать в поддержку</string>
     <string name="support_image_description">Иконка "поддержка"</string>
+    <string name="share_app_via">Поделиться приложением через</string>
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="user_agreement_image_description">Иконка "пользовательское соглашение"</string>
     <string name="back_button_description">Перейти на экран назад</string>

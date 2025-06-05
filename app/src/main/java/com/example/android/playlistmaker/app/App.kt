@@ -2,12 +2,12 @@ package com.example.android.playlistmaker.app
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.android.playlistmaker.Creator
-import com.example.android.playlistmaker.domain.api.ThemeInteractor
+import com.example.android.playlistmaker.creator.Creator
+import com.example.android.playlistmaker.domain.settings.SettingsInteractor
 
 class App : Application() {
 
-    private lateinit var themeInteractor: ThemeInteractor
+    private lateinit var settingsInteractor: SettingsInteractor
 
     override fun onCreate() {
         super.onCreate()
@@ -15,11 +15,11 @@ class App : Application() {
         // Инициализация Creator с application context
         Creator.init(this)
 
-        // Получаем ThemeInteractor
-        themeInteractor = Creator.provideThemeInteractor()
+        // Получаем SettingsInteractor
+        settingsInteractor = Creator.provideThemeSettingsInteractor()
 
         // Получаем сохраненное состояние темы из интерактора
-        val darkTheme = themeInteractor.isDarkThemeEnabled()
+        val darkTheme = settingsInteractor.getThemeSettings().isDarkTheme
 
         // Применяем тему
         switchTheme(darkTheme)
@@ -27,7 +27,9 @@ class App : Application() {
 
     fun switchTheme(darkThemeEnabled: Boolean) {
         // Сохраняем состояние темы через интерактор
-        themeInteractor.setDarkThemeEnabled(darkThemeEnabled)
+        settingsInteractor.updateThemeSetting(
+            settings = com.example.android.playlistmaker.domain.settings.model.ThemeSettings(darkThemeEnabled)
+        )
 
         // Применяем тему
         AppCompatDelegate.setDefaultNightMode(

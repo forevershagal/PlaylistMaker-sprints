@@ -1,0 +1,36 @@
+
+Welcome to Gradle 8.11.1!
+
+Here are the highlights of this release:
+ - Parallel load and store for Configuration Cache
+ - Java compilation errors at the end of the build output
+ - Consolidated report for warnings and deprecations
+
+For more details see https://docs.gradle.org/8.11.1/release-notes.html
+
+Starting a Gradle Daemon, 1 incompatible Daemon could not be reused, use --status for details
+
+> Task :app:dependencies
+
+------------------------------------------------------------
+Project ':app'
+------------------------------------------------------------
+
+implementation - Implementation only dependencies for 'main' sources. (n)
++--- org.jetbrains.kotlin:kotlin-stdlib:1.9.24 (n)
++--- androidx.core:core-ktx:1.16.0 (n)
++--- androidx.appcompat:appcompat:1.7.1 (n)
++--- com.google.android.material:material:1.12.0 (n)
++--- androidx.activity:activity:1.10.1 (n)
++--- androidx.constraintlayout:constraintlayout:2.2.1 (n)
++--- com.squareup.retrofit2:retrofit:2.9.0 (n)
++--- com.squareup.retrofit2:converter-gson:2.9.0 (n)
++--- com.github.bumptech.glide:glide:4.16.0 (n)
+\--- androidx.recyclerview:recyclerview:1.4.0 (n)
+
+(n) - A dependency or dependency configuration that cannot be resolved.
+
+A web-based, searchable dependency report is available by adding the --scan option.
+
+BUILD SUCCESSFUL in 6s
+1 actionable task: 1 executed
