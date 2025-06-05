@@ -18,19 +18,19 @@
 
 
     <activity
-        android:name="com.example.android.playlistmaker.presentation.audio_player.PlayerActivity"
+        android:name="com.example.android.playlistmaker.ui.audio_player.activity.AudioPlayerActivity"
         android:exported="false" />
     <activity
-        android:name="com.example.android.playlistmaker.presentation.media_library.LibraryActivity"
+        android:name="com.example.android.playlistmaker.ui.media_library.LibraryActivity"
         android:exported="false" />
     <activity
-        android:name="com.example.android.playlistmaker.presentation.search_track.SearchActivity"
+        android:name="com.example.android.playlistmaker.ui.search.activity.SearchActivity"
         android:exported="false" />
     <activity
-        android:name="com.example.android.playlistmaker.presentation.settings.SettingsActivity"
+        android:name="com.example.android.playlistmaker.ui.settings.activity.SettingsActivity"
         android:exported="false" />
     <activity
-        android:name="com.example.android.playlistmaker.presentation.main.MainActivity"
+        android:name="com.example.android.playlistmaker.ui.main.activity.MainActivity"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

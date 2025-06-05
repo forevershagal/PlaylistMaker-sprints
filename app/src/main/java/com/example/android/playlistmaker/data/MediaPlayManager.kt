@@ -4,7 +4,10 @@ import android.media.MediaPlayer
 import com.example.android.playlistmaker.domain.api.AudioPlayer
 
 enum class PlayerState {
-    DEFAULT, PREPARED, PLAYING, PAUSED
+    DEFAULT,
+    PREPARED,
+    PLAYING,
+    PAUSED
 }
 
 class MediaPlayerManager: AudioPlayer {
@@ -57,6 +60,7 @@ class MediaPlayerManager: AudioPlayer {
     }
 
     override fun getCurrentPosition(): Int = mediaPlayer?.currentPosition ?: 0
+
     override fun isPlaying(): Boolean = mediaPlayer?.isPlaying ?: false
 
     override fun getPlayerState(): PlayerState = playerState
