@@ -13,8 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsCompat.Type
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.playlistmaker.app.Constants
 import com.example.android.playlistmaker.app.extensions.isGone
@@ -25,7 +23,7 @@ import com.example.android.playlistmaker.ui.audio_player.activity.AudioPlayerAct
 import com.example.android.playlistmaker.ui.search.adapter.TrackAdapter
 import com.example.android.playlistmaker.ui.search.screen_state.SearchScreenState
 import com.example.android.playlistmaker.ui.search.view_model.SearchViewModel
-import com.example.playlistmaker.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -34,7 +32,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModel<SearchViewModel>()
 
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyAdapter: TrackAdapter
@@ -61,10 +59,6 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory(application)
-        )[SearchViewModel::class.java]
 
         setupAdapters()
         setupSearchInput()

@@ -3,7 +3,6 @@ package com.example.android.playlistmaker.ui.audio_player.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.playlistmaker.R
@@ -12,21 +11,17 @@ import com.example.android.playlistmaker.domain.models.Track
 import androidx.core.view.WindowInsetsCompat.Type
 import com.example.android.playlistmaker.ui.audio_player.screen_state.AudioPlayerScreenState
 import com.example.android.playlistmaker.ui.audio_player.view_model.AudioPlayerViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
-    private lateinit var viewModel: AudioPlayerViewModel
+    private val viewModel by viewModel<AudioPlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            AudioPlayerViewModel.getViewModelFactory(application)
-        )[AudioPlayerViewModel::class.java]
 
         val track = intent?.let {
             Track(

@@ -7,11 +7,8 @@ import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
 import com.example.android.playlistmaker.app.SingleLiveEvent
-import com.example.android.playlistmaker.creator.Creator
 import com.example.android.playlistmaker.domain.api.SearchHistoryInteractor
 import com.example.android.playlistmaker.domain.models.Track
 import com.example.android.playlistmaker.domain.search.ErrorType
@@ -109,17 +106,5 @@ class SearchViewModel(
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
-
-        fun getViewModelFactory(application: Application): ViewModelProvider.Factory {
-            return object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel(
-                        application,
-                        Creator.provideSearchInteractor(application),
-                        Creator.provideSearchHistoryInteractor(application)
-                    ) as T
-                }
-            }
-        }
     }
 }

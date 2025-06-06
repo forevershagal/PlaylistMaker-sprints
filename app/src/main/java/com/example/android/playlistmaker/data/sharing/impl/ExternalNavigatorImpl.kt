@@ -17,11 +17,18 @@ class ExternalNavigatorImpl (
             putExtra(Intent.EXTRA_TEXT, link)
             type = "text/plain"
         }
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_app_via)))
+
+        val chooserIntent = Intent.createChooser(intent,
+            context.getString(R.string.share_app_via)).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        context.startActivity(chooserIntent)
     }
 
     override fun openLink(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
         context.startActivity(intent)
     }
 
@@ -32,6 +39,7 @@ class ExternalNavigatorImpl (
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(emailData.email))
                 putExtra(Intent.EXTRA_SUBJECT, emailData.subject)
                 putExtra(Intent.EXTRA_TEXT, emailData.body)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
             context.startActivity(intent)
         }

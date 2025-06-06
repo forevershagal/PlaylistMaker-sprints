@@ -3,23 +3,26 @@ package com.example.android.playlistmaker.data.player.impl
 import android.media.MediaPlayer
 import com.example.android.playlistmaker.domain.player.AudioPlayerRepository
 
-class AudioPlayerRepositoryImpl : AudioPlayerRepository {
-    private var mediaPlayer: MediaPlayer = MediaPlayer()
+class AudioPlayerRepositoryImpl(
+    private val mediaPlayer: MediaPlayer
+) : AudioPlayerRepository {
     private var prepared = false
     private var onPreparedListener: (() -> Unit)? = null
     private var onCompletionListener: (() -> Unit)? = null
 
     override fun preparePlayer(url: String) {
         releasePlayer()
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.setOnPreparedListener {
-            prepared = true
-            onPreparedListener?.invoke()
+        mediaPlayer.apply {
+            setDataSource(url)
+            setOnPreparedListener {
+                prepared = true
+                onPreparedListener?.invoke()
+            }
+            setOnCompletionListener {
+                onCompletionListener?.invoke()
+            }
+            prepareAsync()
         }
-        mediaPlayer.setOnCompletionListener {
-            onCompletionListener?.invoke()
-        }
-        mediaPlayer.prepareAsync()
     }
 
     override fun startPlayer() {
@@ -31,7 +34,9 @@ class AudioPlayerRepositoryImpl : AudioPlayerRepository {
     }
 
     override fun releasePlayer() {
-        mediaPlayer.reset()
+        mediaPlayer.apply{
+            reset()
+        }
         prepared = false
     }
 

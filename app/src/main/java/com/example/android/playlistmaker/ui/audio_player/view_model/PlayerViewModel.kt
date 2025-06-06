@@ -1,6 +1,5 @@
 package com.example.android.playlistmaker.ui.audio_player.view_model
 
-import android.app.Application
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +9,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.os.Handler
-import androidx.lifecycle.ViewModelProvider
-import com.example.android.playlistmaker.creator.Creator
 import com.example.android.playlistmaker.domain.models.Track
 import com.example.android.playlistmaker.domain.player.AudioPlayerInteractor
 
@@ -20,7 +17,8 @@ class AudioPlayerViewModel(
     private val audioPlayerInteractor: AudioPlayerInteractor
 ) : ViewModel() {
 
-    private val _audioPlayerScreenState = MutableLiveData<AudioPlayerScreenState>(AudioPlayerScreenState.Default)
+    private val _audioPlayerScreenState =
+        MutableLiveData<AudioPlayerScreenState>(AudioPlayerScreenState.Default)
     val audioPlayerScreenState: LiveData<AudioPlayerScreenState> = _audioPlayerScreenState
 
     private val _trackData = MutableLiveData<Track>()
@@ -102,18 +100,4 @@ class AudioPlayerViewModel(
         audioPlayerInteractor.releasePlayer()
         stopUpdatingTime()
     }
-
-    companion object {
-        fun getViewModelFactory(provideAudioPlayerInteractor: Application): ViewModelProvider.Factory {
-            return object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return AudioPlayerViewModel(
-                        Creator.provideAudioPlayerInteractor()
-                    ) as T
-                }
-            }
-        }
-    }
-
 }
