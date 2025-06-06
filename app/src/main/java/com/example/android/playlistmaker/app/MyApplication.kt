@@ -6,32 +6,37 @@ import com.example.android.playlistmaker.di.dataModule
 import com.example.android.playlistmaker.di.interactorModule
 import com.example.android.playlistmaker.di.repositoryModule
 import com.example.android.playlistmaker.di.viewModelModule
+import com.example.android.playlistmaker.domain.settings.SettingsInteractor
+import com.example.android.playlistmaker.domain.settings.model.ThemeSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.java.KoinJavaComponent.get
 
 class MyApplication : Application() {
 
-    var darkTheme = false
+    private lateinit var settingsInteractor: SettingsInteractor
 
     override fun onCreate() {
         super.onCreate()
+
         startKoin {
             androidContext(this@MyApplication)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule)
         }
-        val sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE)
-        darkTheme = sharedPreferences.getBoolean("dark_theme", false)
-        switchTheme(darkTheme)
+
+        settingsInteractor = get(SettingsInteractor::class.java)
+
+        val isDarkTheme = settingsInteractor.getThemeSettings().isDarkTheme
+
+        switchTheme(isDarkTheme)
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
-        darkTheme = darkThemeEnabled
+        settingsInteractor.updateThemeSetting(ThemeSettings(darkThemeEnabled))
+
         AppCompatDelegate.setDefaultNightMode(
-            if (darkThemeEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
-            }
+            if (darkThemeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
         )
     }
 }
