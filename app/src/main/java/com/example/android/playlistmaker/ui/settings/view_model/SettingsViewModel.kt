@@ -1,12 +1,8 @@
 package com.example.android.playlistmaker.ui.settings.view_model
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.R
-import com.example.android.playlistmaker.creator.Creator
 import com.example.android.playlistmaker.domain.settings.SettingsInteractor
 import com.example.android.playlistmaker.domain.settings.model.ThemeSettings
 import com.example.android.playlistmaker.domain.sharing.SharingInteractor
@@ -42,17 +38,4 @@ class SettingsViewModel(
         sharingInteractor.openSupport(emailData)
     }
 
-    companion object {
-        fun getViewModelFactory(context: Context): ViewModelProvider.Factory {
-            return object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SettingsViewModel(
-                        Creator.provideSharingInteractor(context),
-                        Creator.provideSettingsInteractor(context)
-                    ) as T
-                }
-            }
-        }
-    }
 }

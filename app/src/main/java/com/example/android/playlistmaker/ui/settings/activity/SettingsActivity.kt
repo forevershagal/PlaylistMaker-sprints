@@ -2,27 +2,22 @@ package com.example.android.playlistmaker.ui.settings.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
-import com.example.android.playlistmaker.app.App
+import com.example.android.playlistmaker.app.MyApplication
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 import com.example.android.playlistmaker.domain.sharing.model.EmailData
 import com.example.android.playlistmaker.ui.settings.view_model.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel by viewModel<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            SettingsViewModel.getViewModelFactory(this@SettingsActivity)
-        )[SettingsViewModel::class.java]
 
         setupViews()
         observeViewModel()
@@ -57,7 +52,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.themeLiveData.observe(this) { themeSettings ->
             binding.switchThemeButton.isChecked = themeSettings.isDarkTheme
-            (applicationContext as App).switchTheme(themeSettings.isDarkTheme)
+            (applicationContext as MyApplication).switchTheme(themeSettings.isDarkTheme)
         }
     }
 }

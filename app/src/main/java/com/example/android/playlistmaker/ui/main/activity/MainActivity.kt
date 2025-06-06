@@ -3,15 +3,14 @@ package com.example.android.playlistmaker.ui.main.activity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.android.playlistmaker.ui.main.view_model.MainViewModel
-import com.example.android.playlistmaker.creator.Creator
 import com.example.playlistmaker.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        setStatusBar()
-
-        viewModel = ViewModelProvider(
-            this,
-            MainViewModel.getViewModelFactory(Creator.provideMainExternalNavigator(this))
-        )[MainViewModel::class.java]
-
         setupViews()
     }
 
