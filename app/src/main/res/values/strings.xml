@@ -31,4 +31,9 @@
     <string name="collection">Альбом</string>
     <string name="genre_name">Жанр</string>
     <string name="country">Страна</string>
+    <string name="your_medialibrary_is_empty"> Ваша медиатека пуста </string>
+    <string name="new_playlist"> Новый плейлист </string>
+    <string name="no_created_playlist"> Вы не создали\nни одного плейлиста </string>
+    <string name="favourites"> Избранные треки </string>
+    <string name="playlists"> Плейлисты </string>
 </resources>

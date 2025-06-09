@@ -5,7 +5,7 @@ import android.content.Intent
 import com.example.android.playlistmaker.domain.main.MainExternalNavigator
 import com.example.android.playlistmaker.ui.search.activity.SearchActivity
 import com.example.android.playlistmaker.ui.settings.activity.SettingsActivity
-import com.example.android.playlistmaker.ui.media_library.LibraryActivity
+import com.example.android.playlistmaker.ui.media_library.activity.MediaLibraryActivity
 
 class MainExternalNavigatorImpl  (
     private val context: Context
@@ -18,7 +18,7 @@ class MainExternalNavigatorImpl  (
     }
 
     override fun openMediaLibrary() {
-        val mediaLibraryIntent = Intent(context, LibraryActivity::class.java).apply {
+        val mediaLibraryIntent = Intent(context, MediaLibraryActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(mediaLibraryIntent)

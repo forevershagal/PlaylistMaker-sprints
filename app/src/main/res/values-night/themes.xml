@@ -29,7 +29,7 @@
         <item name="textColorPrimary">@color/white</item>
         <item name="colorIconPrimary">@color/black_app</item>
         <item name="colorPrimaryVariant">@color/black_app</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/alternative_black</item>
         <item name="colorSecondary">@color/white</item>
         <item name="textColorSecondary">@color/white</item>
         <item name="colorIconSecondary">@color/white</item>

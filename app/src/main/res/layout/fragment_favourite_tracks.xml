@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/favouriteTracksEmptyPlaceholder"
+        android:layout_width="@dimen/padding_second"
+        android:layout_height="@dimen/padding_second"
+        android:layout_marginTop="106dp"
+        android:layout_gravity="center_horizontal"
+        style="@style/NoResultsPicture" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/your_medialibrary_is_empty"
+        android:textSize="@dimen/text_size"
+        android:fontFamily="@font/ys_display_medium"
+        android:textFontWeight="400"
+        android:gravity="center"
+        android:layout_marginTop="242dp"
+        android:textColor="?attr/textColorPrimary"
+        style="@style/DarkThemeButtonStyle"/>
+
+</FrameLayout>

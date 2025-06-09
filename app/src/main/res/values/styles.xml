@@ -285,4 +285,14 @@
         <item name="android:src">@drawable/pause_button</item>
     </style>
 
+    <style name="TabIndicator">
+        <item name="tabIndicatorColor">?attr/textColorPrimary</item>
+        <item name="android:background">@color/white</item>
+        <item name="tabTextColor">?attr/textColorPrimary</item>
+    </style>
+
+    <style name="FragmentBg">
+        <item name="android:background">@color/white</item>
+    </style>
+
 </resources>
