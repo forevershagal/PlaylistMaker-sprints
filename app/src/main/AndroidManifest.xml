@@ -21,7 +21,7 @@
         android:name="com.example.android.playlistmaker.ui.audio_player.activity.AudioPlayerActivity"
         android:exported="false" />
     <activity
-        android:name="com.example.android.playlistmaker.ui.media_library.LibraryActivity"
+        android:name="com.example.android.playlistmaker.ui.media_library.activity.MediaLibraryActivity"
         android:exported="false" />
     <activity
         android:name="com.example.android.playlistmaker.ui.search.activity.SearchActivity"
