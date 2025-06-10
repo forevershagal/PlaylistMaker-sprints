@@ -1,14 +1,28 @@
-package com.example.android.playlistmaker.ui.media_library.fragments.playlist_fragment
+package com.example.android.playlistmaker.ui.playlist.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.android.playlistmaker.ui.playlist.view_model.PlaylistViewModel
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.core.os.bundleOf
 
 class PlaylistFragment : Fragment() {
+
+
+    companion object {
+        private const val ARGS_PLAYLIST_ID = "playlist_id"
+
+        fun createArgs(playlistId: String): Bundle =
+            bundleOf(ARGS_PLAYLIST_ID to playlistId)
+
+        fun newInstance() = PlaylistFragment()
+    }
+
+
     private var _binding: FragmentPlaylistBinding? = null
     private val binding get() = _binding!!
 
@@ -32,9 +46,5 @@ class PlaylistFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        fun newInstance() = PlaylistFragment()
     }
 }

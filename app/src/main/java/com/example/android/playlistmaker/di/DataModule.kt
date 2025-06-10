@@ -6,7 +6,6 @@ import com.example.android.playlistmaker.app.TrackMapper
 import com.example.android.playlistmaker.data.NetworkClient
 import com.example.android.playlistmaker.data.locale.SearchHistoryStorage
 import com.example.android.playlistmaker.data.locale.SearchHistoryStorageImpl
-import com.example.android.playlistmaker.data.main.impl.MainExternalNavigatorImpl
 import com.example.android.playlistmaker.data.network.ITunesApiService
 import com.example.android.playlistmaker.data.network.RetrofitNetworkClient
 import com.example.android.playlistmaker.data.network.SearchHistoryRepositoryImpl
@@ -14,7 +13,6 @@ import com.example.android.playlistmaker.data.search.SearchRepositoryImpl
 import com.example.android.playlistmaker.data.settings.impl.SettingsRepositoryImpl
 import com.example.android.playlistmaker.data.sharing.impl.ExternalNavigatorImpl
 import com.example.android.playlistmaker.domain.api.SearchHistoryRepository
-import com.example.android.playlistmaker.domain.main.MainExternalNavigator
 import com.example.android.playlistmaker.domain.search.SearchRepository
 import com.example.android.playlistmaker.domain.settings.SettingsRepository
 import com.example.android.playlistmaker.domain.sharing.ExternalNavigator
@@ -53,10 +51,6 @@ val dataModule = module {
 
     single<SearchHistoryStorage> {
         SearchHistoryStorageImpl(get(), get())
-    }
-
-    single<MainExternalNavigator> {
-        MainExternalNavigatorImpl(androidContext())
     }
 
     single<ExternalNavigator> {
