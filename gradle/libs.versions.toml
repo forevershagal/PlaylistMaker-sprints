@@ -15,6 +15,7 @@ glide = "5.0.0-rc01"
 core = "1.6.1"
 recyclerview = "1.4.0"
 retrofit = "2.9.0"
+navigationFragment = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +34,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 glide= { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

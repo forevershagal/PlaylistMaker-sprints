@@ -33,4 +33,8 @@
     <color name="grey2">#401A1B22</color>
     <color name="white2">#40FFFFFF</color>
     <color name="blue2">#3772E7</color>
+
+    <color name="selected_color">#3772E7</color>
+    <color name="unselected_color">#1A1B22</color>
+    <color name="light_grey">#E6E8EB</color>
 </resources>

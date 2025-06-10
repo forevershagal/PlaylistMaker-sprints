@@ -295,4 +295,16 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="IconSearchStyle">
+        <item name="android:icon">@drawable/ic_search_light</item>
+    </style>
+
+    <style name="IconMediaStyle">
+        <item name="android:icon">@drawable/ic_media_light</item>
+    </style>
+
+    <style name="IconSettingsStyle">
+        <item name="android:icon">@drawable/ic_settings_light</item>
+    </style>
+
 </resources>
