@@ -8,8 +8,7 @@
     android:layout_gravity="end"
     android:background="?attr/backgroundColorSecondary"
     android:orientation="vertical"
-    android:layout_margin="4dp"
-    tools:context="com.example.android.playlistmaker.ui.main.activity.MainActivity"
+    tools:context="com.example.android.playlistmaker.ui.settings.fragment.SettingsFragment"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -17,10 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/settings"
+        android:layout_marginStart="4dp"
         style="@style/CustomToolbarStyle"
-        app:titleTextAppearance="@style/ToolbarTextAppearance"
-        app:navigationIconTint="?attr/textColorPrimary"
-        app:navigationIcon="@drawable/arrow_back"/>
+        app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
     <LinearLayout
         style="@style/SettingsItemStyle"

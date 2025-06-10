@@ -17,21 +17,12 @@
         tools:targetApi="31">
 
 
-    <activity
-        android:name="com.example.android.playlistmaker.ui.audio_player.activity.AudioPlayerActivity"
-        android:exported="false" />
-    <activity
-        android:name="com.example.android.playlistmaker.ui.media_library.activity.MediaLibraryActivity"
-        android:exported="false" />
-    <activity
-        android:name="com.example.android.playlistmaker.ui.search.activity.SearchActivity"
-        android:exported="false" />
-    <activity
-        android:name="com.example.android.playlistmaker.ui.settings.activity.SettingsActivity"
-        android:exported="false" />
-    <activity
-        android:name="com.example.android.playlistmaker.ui.main.activity.MainActivity"
-        android:exported="true">
+        <activity
+            android:name="com.example.android.playlistmaker.ui.root.RootActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

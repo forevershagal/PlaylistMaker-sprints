@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="IconSearchStyle">
+        <item name="android:icon">@drawable/ic_search_dark</item>
+    </style>
+
+    <style name="IconMediaStyle">
+    <item name="android:icon">@drawable/ic_media_dark</item>
+    </style>
+
+    <style name="IconSettingsStyle">
+    <item name="android:icon">@drawable/ic_settings_dark</item>
+    </style>
+
+</resources>

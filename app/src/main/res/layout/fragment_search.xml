@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/search"
+    tools:context="com.example.android.playlistmaker.ui.search.fragment.SearchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -17,18 +18,6 @@
         android:orientation="horizontal"
         style="@style/SettingBackgroundStyle"
         android:gravity="center_vertical">
-
-        <ImageView
-            android:padding="16dp"
-            android:id="@+id/back_button"
-            android:layout_width="@dimen/size_second"
-            android:layout_height="@dimen/size_second"
-            android:layout_marginTop="@dimen/margin_start_third"
-            android:layout_marginBottom="@dimen/margin_start_third"
-            android:layout_marginStart="@dimen/margin_start_third"
-            android:src="@drawable/arrow_back"
-            android:backgroundTint="?attr/colorIconArrowBack"
-            />
 
         <TextView
             android:layout_width="match_parent"
