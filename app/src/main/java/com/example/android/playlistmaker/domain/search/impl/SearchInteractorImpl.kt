@@ -3,33 +3,24 @@ package com.example.android.playlistmaker.domain.search.impl
 import com.example.android.playlistmaker.app.Resource
 import com.example.android.playlistmaker.domain.api.SearchHistoryInteractor
 import com.example.android.playlistmaker.domain.models.Track
-import com.example.android.playlistmaker.domain.search.ErrorType
 import com.example.android.playlistmaker.domain.search.SearchInteractor
 import com.example.android.playlistmaker.domain.search.SearchRepository
-import com.example.android.playlistmaker.domain.utils.NetworkChecker
-import java.util.concurrent.Executors
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class SearchInteractorImpl(
     private val repository: SearchRepository,
-    private val historyInteractor: SearchHistoryInteractor,
-    private val networkChecker: NetworkChecker
+    private val historyInteractor: SearchHistoryInteractor
 ) : SearchInteractor {
 
-    private val executor = Executors.newCachedThreadPool()
-
-    override fun searchTracks(expression: String, consumer: (List<Track>?, ErrorType?) -> Unit) {
-        executor.execute {
-            if (!networkChecker.isConnected()) {
-                consumer(null, ErrorType.NoInternet)
-                return@execute
-            }
-
-            when (val result = repository.searchTracks(expression)) {
+    override fun searchTracks(expression: String) : Flow<Pair<List<Track>?, String?>> {
+        return repository.searchTracks(expression).map { result ->
+            when(result) {
                 is Resource.Success -> {
-                    consumer(result.data, null)
+                    Pair( result.data, null)
                 }
                 is Resource.Error -> {
-                    consumer(null, ErrorType.ServerError)
+                    Pair(null, result.message)
                 }
             }
         }

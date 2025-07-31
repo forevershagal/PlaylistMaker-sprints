@@ -38,6 +38,7 @@
         app:itemPaddingBottom = "@dimen/margin_start_second"
         app:itemPaddingTop = "@dimen/margin_start_second"
         style="@style/FragmentBg"
+        app:itemActiveIndicatorStyle="@null"
         app:itemIconTint="@color/bottom_nav_icon_color"
         app:itemTextColor="@color/bottom_nav_text_color"
 

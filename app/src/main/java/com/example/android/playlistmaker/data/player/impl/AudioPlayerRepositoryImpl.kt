@@ -53,4 +53,12 @@ class AudioPlayerRepositoryImpl(
     override fun setOnCompletionListener(listener: () -> Unit) {
         onCompletionListener = listener
     }
+
+    override fun seekTo(position: Int) {
+        mediaPlayer.seekTo(position)
+    }
+
+    override fun getDuration(): Int {
+        return mediaPlayer.duration
+    }
 }
