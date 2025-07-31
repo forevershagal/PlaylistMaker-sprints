@@ -10,4 +10,6 @@ interface AudioPlayerRepository {
     fun isPrepared(): Boolean
     fun setOnPreparedListener(listener: () -> Unit)
     fun setOnCompletionListener(listener: () -> Unit)
+    fun seekTo(position: Int)
+    fun getDuration(): Int
 }

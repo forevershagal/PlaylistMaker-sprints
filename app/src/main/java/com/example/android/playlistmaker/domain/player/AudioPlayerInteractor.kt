@@ -1,5 +1,6 @@
 package com.example.android.playlistmaker.domain.player
 
+
 class AudioPlayerInteractor(private val repository: AudioPlayerRepository) {
 
     fun preparePlayer(url: String) = repository.preparePlayer(url)
@@ -16,5 +17,13 @@ class AudioPlayerInteractor(private val repository: AudioPlayerRepository) {
 
     fun setOnCompletionListener(listener: () -> Unit) {
         repository.setOnCompletionListener(listener)
+    }
+
+    fun seekTo(position: Int) {
+        repository.seekTo(position)
+    }
+
+    fun getDuration(): Int {
+        return repository.getDuration()
     }
 }

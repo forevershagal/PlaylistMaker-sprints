@@ -16,6 +16,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.playlistmaker.app.Constants
@@ -26,6 +27,7 @@ import com.example.android.playlistmaker.domain.models.Track
 import com.example.android.playlistmaker.ui.search.adapter.TrackAdapter
 import com.example.android.playlistmaker.ui.search.screen_state.SearchScreenState
 import com.example.android.playlistmaker.ui.search.view_model.SearchViewModel
+import com.example.android.playlistmaker.utils.debounce
 import com.example.playlistmaker.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -73,6 +75,8 @@ class SearchFragment : Fragment(){
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var onTrackClickDebounce : (Track) -> Unit
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
@@ -83,6 +87,18 @@ class SearchFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        onTrackClickDebounce = debounce(
+            delayMillis = CLICK_DEBOUNCE_DELAY,
+            coroutineScope = viewLifecycleOwner.lifecycleScope,
+            useLastParam = false
+        ) {track -> viewModel.addToHistory(track)
+            findNavController().navigate(
+                R.id.action_searchFragment_to_audioPlayerFragment,
+                createArgs(track)
+            )
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -117,15 +133,11 @@ class SearchFragment : Fragment(){
 
     private fun setupAdapters() {
         adapter = TrackAdapter(emptyList()) { track ->
-            if (clickDebounce()) {
-                onTrackClicked(track)
-            }
+            onTrackClickDebounce(track)
         }
 
         historyAdapter = TrackAdapter(emptyList()) { track ->
-            if (clickDebounce()) {
-                onTrackClicked(track)
-            }
+            onTrackClickDebounce(track)
         }
 
         binding.trackList.layoutManager = LinearLayoutManager(requireContext())
@@ -175,7 +187,8 @@ class SearchFragment : Fragment(){
         }
 
         binding.updateButton.setOnClickListener {
-            inputText?.let { query -> viewModel.searchDebounce(query) }
+            val query = binding.inputEditText.text.toString()
+            viewModel.searchDebounce(query, force = true)
         }
 
         binding.inputEditText.setOnClickListener {
@@ -254,26 +267,9 @@ class SearchFragment : Fragment(){
         }
     }
 
-    private fun onTrackClicked(track: Track) {
-        viewModel.addToHistory(track)
-        findNavController().navigate(
-            R.id.action_searchFragment_to_audioPlayerFragment,
-            SearchFragment.createArgs(track)
-        )
-    }
-
     private fun hideKeyboard() {
         val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
         imm?.hideSoftInputFromWindow(binding.inputEditText.windowToken, 0)
-    }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

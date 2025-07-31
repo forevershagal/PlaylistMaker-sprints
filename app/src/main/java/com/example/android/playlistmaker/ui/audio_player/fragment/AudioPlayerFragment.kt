@@ -140,6 +140,7 @@ class AudioPlayerFragment : Fragment() {
             }
             is AudioPlayerScreenState.Paused -> {
                 binding.playButton.setImageResource(R.drawable.play_button)
+                binding.timePlay.text = state.currentPosition
             }
             is AudioPlayerScreenState.Prepared -> {
                 binding.playButton.setImageResource(R.drawable.play_button)
