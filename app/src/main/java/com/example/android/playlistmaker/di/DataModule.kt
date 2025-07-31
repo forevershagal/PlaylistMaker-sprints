@@ -46,7 +46,7 @@ val dataModule = module {
     }
 
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(get(), get())
     }
 
     single<SearchHistoryStorage> {
@@ -69,7 +69,7 @@ val dataModule = module {
     }
 
     single<SearchRepository> {
-        SearchRepositoryImpl(get(), get())
+        SearchRepositoryImpl(get(), get(), get())
     }
 
     single<NetworkChecker> {

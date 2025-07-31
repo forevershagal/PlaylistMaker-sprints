@@ -18,8 +18,7 @@ val interactorModule = module {
     single<SearchInteractor> {
         SearchInteractorImpl(
             repository = get(),
-            historyInteractor = get(),
-            networkChecker = get()
+            historyInteractor = get()
         )
     }
 

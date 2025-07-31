@@ -1,6 +1,5 @@
 package com.example.android.playlistmaker.ui.audio_player.view_model
 
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +8,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.os.Handler
+import androidx.lifecycle.viewModelScope
 import com.example.android.playlistmaker.domain.models.Track
 import com.example.android.playlistmaker.domain.player.AudioPlayerInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class AudioPlayerViewModel(
@@ -24,9 +27,8 @@ class AudioPlayerViewModel(
     private val _trackData = MutableLiveData<Track>()
     val trackData: LiveData<Track> = _trackData
 
-    private var mainThreadHandler: Handler? = null
-    private var updateRunnable: Runnable? = null
     private var currentPosition = 0
+    private var timerJob: Job? = null
 
 
     init {
@@ -34,6 +36,8 @@ class AudioPlayerViewModel(
             _audioPlayerScreenState.postValue(AudioPlayerScreenState.Prepared)
         }
         audioPlayerInteractor.setOnCompletionListener {
+            stopUpdatingTime()
+            audioPlayerInteractor.seekTo(0)
             _audioPlayerScreenState.postValue(AudioPlayerScreenState.Prepared)
         }
     }
@@ -53,8 +57,10 @@ class AudioPlayerViewModel(
 
     private fun startPlayer() {
         if (audioPlayerInteractor.isPrepared()) {
+            if (audioPlayerInteractor.getCurrentPosition() >= audioPlayerInteractor.getDuration()) {
+                audioPlayerInteractor.seekTo(0)
+            }
             audioPlayerInteractor.startPlayer()
-            _audioPlayerScreenState.postValue(AudioPlayerScreenState.Playing(formatTime(0)))
             startUpdatingTime()
         }
     }
@@ -63,32 +69,31 @@ class AudioPlayerViewModel(
         if (audioPlayerInteractor.isPlaying()) {
             currentPosition = audioPlayerInteractor.getCurrentPosition()
             audioPlayerInteractor.pausePlayer()
-            _audioPlayerScreenState.postValue(AudioPlayerScreenState.Paused)
+            _audioPlayerScreenState.postValue(AudioPlayerScreenState.Paused(formatTime(currentPosition)))
             stopUpdatingTime()
         }
     }
 
     private fun startUpdatingTime() {
-        stopUpdatingTime()
+        timerJob?.cancel()
+        timerJob = viewModelScope.launch {
+            var currentPosition = audioPlayerInteractor.getCurrentPosition()
+            _audioPlayerScreenState.postValue(
+                AudioPlayerScreenState.Playing(formatTime(currentPosition))
+            )
 
-        if (mainThreadHandler == null) {
-            mainThreadHandler = Handler(Looper.getMainLooper())
-        }
-        updateRunnable = object : Runnable {
-            override fun run() {
-                if (audioPlayerInteractor.isPlaying()) {
-                    _audioPlayerScreenState.postValue(
-                        AudioPlayerScreenState.Playing(formatTime(audioPlayerInteractor.getCurrentPosition()))
-                    )
-                    mainThreadHandler?.postDelayed(this, 300)
-                }
+            while(audioPlayerInteractor.isPlaying()) {
+                delay(TIMER_DEBOUNCE_DELAY)
+                currentPosition = audioPlayerInteractor.getCurrentPosition()
+                _audioPlayerScreenState.postValue(
+                    AudioPlayerScreenState.Playing(formatTime(currentPosition))
+                )
             }
         }
-        updateRunnable?.let { mainThreadHandler?.post(it) }
     }
 
     private fun stopUpdatingTime() {
-        updateRunnable?.let { mainThreadHandler?.removeCallbacks(it) }
+        timerJob?.cancel()
     }
 
     private fun formatTime(millis: Int): String {
@@ -99,5 +104,9 @@ class AudioPlayerViewModel(
         super.onCleared()
         audioPlayerInteractor.releasePlayer()
         stopUpdatingTime()
+    }
+
+    companion object {
+        private const val TIMER_DEBOUNCE_DELAY = 300L
     }
 }
