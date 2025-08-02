@@ -11,7 +11,8 @@ data class Track(
     val releaseDate: String,
     val primaryGenreName: String,
     val country: String,
-    val previewUrl: String) {
+    val previewUrl: String,
+    val isFavourite : Boolean = false) {
 
 
     fun getFormattedDuration(): String {
@@ -23,7 +24,11 @@ data class Track(
     }
 
     fun getReleaseYear(): String {
-        return java.time.OffsetDateTime.parse(releaseDate).year.toString()
+        return if (releaseDate.length >= 4 && releaseDate.substring(0, 4).matches(Regex("\\d{4}"))) {
+            releaseDate.substring(0, 4)
+        } else {
+            releaseDate
+        }
     }
 }
 

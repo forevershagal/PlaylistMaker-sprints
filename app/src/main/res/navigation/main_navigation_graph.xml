@@ -10,28 +10,30 @@
         android:label="SearchFragment" >
         <action
             android:id="@+id/action_searchFragment_to_audioPlayerFragment"
-            app:destination="@id/audioPlayerFragment" />
+            app:destination="@id/audioPlayerFragment"/>
     </fragment>
+
+
     <fragment
         android:id="@+id/mediaLibraryFragment"
         android:name="com.example.android.playlistmaker.ui.media_library.fragment.MediaLibraryFragment"
         android:label="MediaLibraryFragment" >
+        <action
+            android:id="@+id/action_global_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment" />
     </fragment>
+
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.android.playlistmaker.ui.settings.fragment.SettingsFragment"
         android:label="SettingsFragment" >
     </fragment>
+
+
     <fragment
         android:id="@+id/audioPlayerFragment"
         android:name="com.example.android.playlistmaker.ui.audio_player.fragment.AudioPlayerFragment"
         android:label="AudioPlayerFragment" />
-    <fragment
-        android:id="@+id/favouriteFragment"
-        android:name="com.example.android.playlistmaker.ui.favourite.fragment.FavouriteFragment"
-        android:label="FavouriteFragment" />
-    <fragment
-        android:id="@+id/playlistFragment"
-        android:name="com.example.android.playlistmaker.ui.playlist.fragment.PlaylistFragment"
-        android:label="PlaylistFragment" />
+
 </navigation>

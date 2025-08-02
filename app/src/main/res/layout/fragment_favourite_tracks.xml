@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.playlistmaker.ui.favourite.fragment.FavouriteFragment">
 
-    <ImageView
-        android:id="@+id/favouriteTracksEmptyPlaceholder"
-        android:layout_width="@dimen/padding_second"
-        android:layout_height="@dimen/padding_second"
-        android:layout_marginTop="106dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/NoResultsPicture" />
-
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/noFavouriteTrackLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/your_medialibrary_is_empty"
-        android:textSize="@dimen/text_size"
-        android:fontFamily="@font/ys_display_medium"
-        android:textFontWeight="400"
-        android:gravity="center"
-        android:layout_marginTop="242dp"
-        android:textColor="?attr/textColorPrimary"
-        style="@style/DarkThemeButtonStyle"/>
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/favouriteTracksEmptyPlaceholder"
+            style="@style/NoResultsPicture"
+            android:layout_width="@dimen/padding_second"
+            android:layout_height="@dimen/padding_second"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="106dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/DarkThemeButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ys_display_medium"
+            android:gravity="center"
+            android:text="@string/your_medialibrary_is_empty"
+            android:textFontWeight="400"
+            android:textSize="@dimen/text_size"
+            android:textColor="?attr/textColorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favouriteTracksEmptyPlaceholder" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:visibility="gone" />
 
 </FrameLayout>

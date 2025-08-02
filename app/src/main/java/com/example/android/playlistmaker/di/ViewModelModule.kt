@@ -1,7 +1,7 @@
 package com.example.android.playlistmaker.di
 
 import com.example.android.playlistmaker.ui.audio_player.view_model.AudioPlayerViewModel
-import com.example.android.playlistmaker.ui.media_library.fragments.favourite_fragment.FavouriteViewModel
+import com.example.android.playlistmaker.ui.favourite.view_model.FavouriteViewModel
 import com.example.android.playlistmaker.ui.playlist.view_model.PlaylistViewModel
 import com.example.android.playlistmaker.ui.media_library.view_model.MediaLibraryViewModel
 import com.example.android.playlistmaker.ui.search.view_model.SearchViewModel
@@ -14,7 +14,9 @@ val viewModelModule = module {
 
     viewModel {
         AudioPlayerViewModel(
-            audioPlayerInteractor = get()
+            audioPlayerInteractor = get(),
+            favouriteTrackInteractor = get(),
+            searchInteractor = get()
         )
     }
 
@@ -34,11 +36,11 @@ val viewModelModule = module {
     }
 
     viewModel {
-        MediaLibraryViewModel()
+        MediaLibraryViewModel(get())
     }
 
     viewModel {
-        FavouriteViewModel()
+        FavouriteViewModel(get())
     }
 
     viewModel {

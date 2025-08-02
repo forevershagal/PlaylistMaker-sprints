@@ -13,12 +13,17 @@ class SearchInteractorImpl(
     private val historyInteractor: SearchHistoryInteractor
 ) : SearchInteractor {
 
-    override fun searchTracks(expression: String) : Flow<Pair<List<Track>?, String?>> {
+    override fun searchTracks(expression: String): Flow<Pair<List<Track>?, String?>> {
         return repository.searchTracks(expression).map { result ->
-            when(result) {
+            when (result) {
                 is Resource.Success -> {
-                    Pair( result.data, null)
+                    val favouriteIds = repository.getFavouriteIds()
+                    val tracksWithFavourites = result.data?.map { track ->
+                        track.copy(isFavourite = favouriteIds.contains(track.trackId))
+                    }
+                    Pair(tracksWithFavourites, null)
                 }
+
                 is Resource.Error -> {
                     Pair(null, result.message)
                 }
@@ -34,7 +39,15 @@ class SearchInteractorImpl(
         historyInteractor.clearHistory()
     }
 
-    override fun getSearchHistory(): List<Track> {
-        return historyInteractor.getHistory()
+    override suspend fun getFavouriteIds(): List<String> {
+        return repository.getFavouriteIds()
+    }
+
+    override suspend fun getSearchHistory(): List<Track> {
+        val history = historyInteractor.getHistory()
+        val favouriteIds = repository.getFavouriteIds()
+        return history.map { track ->
+            track.copy(isFavourite = favouriteIds.contains(track.trackId))
+        }
     }
 }

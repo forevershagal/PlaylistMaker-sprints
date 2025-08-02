@@ -2,6 +2,9 @@ package com.example.android.playlistmaker.di
 
 import com.example.android.playlistmaker.domain.api.SearchHistoryInteractor
 import com.example.android.playlistmaker.domain.impl.SearchHistoryInteractorImpl
+import com.example.android.playlistmaker.domain.media_library.MediaLibraryInteractor
+import com.example.android.playlistmaker.domain.db.FavouriteTrackInteractor
+import com.example.android.playlistmaker.domain.impl.FavouriteTrackInteractorImpl
 import com.example.android.playlistmaker.domain.player.AudioPlayerInteractor
 import com.example.android.playlistmaker.domain.search.SearchInteractor
 import com.example.android.playlistmaker.domain.search.impl.SearchInteractorImpl
@@ -46,5 +49,13 @@ val interactorModule = module {
         SharingInteractorImpl(
             externalNavigator = get()
         )
+    }
+
+    single<MediaLibraryInteractor> {
+        MediaLibraryInteractor(get())
+    }
+
+    single<FavouriteTrackInteractor> {
+        FavouriteTrackInteractorImpl(get())
     }
 }
