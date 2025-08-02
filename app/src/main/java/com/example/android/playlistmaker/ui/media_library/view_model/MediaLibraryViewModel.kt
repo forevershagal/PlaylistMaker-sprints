@@ -1,15 +1,12 @@
 package com.example.android.playlistmaker.ui.media_library.view_model
 
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.R
-import com.example.android.playlistmaker.ui.media_library.TabData
+import com.example.android.playlistmaker.domain.media_library.MediaLibraryInteractor
+import com.example.android.playlistmaker.domain.models.TabData
 
-class MediaLibraryViewModel : ViewModel() {
+class MediaLibraryViewModel(
+    private val interactor: MediaLibraryInteractor
+) : ViewModel() {
 
-    fun getTabsData(): List<TabData> {
-        return listOf(
-            TabData(R.string.favourites, R.layout.fragment_favourite_tracks),
-            TabData(R.string.playlists, R.layout.fragment_playlist)
-        )
-    }
+    fun getTabsData(): List<TabData> = interactor.getTabsData()
 }

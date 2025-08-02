@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id ("kotlin-kapt")
 }
 
 android {
@@ -42,6 +43,10 @@ android {
 }
 
 dependencies {
+    val room_version = "2.5.1"
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation (libs.material.v180)
     implementation (libs.androidx.navigation.fragment.ktx)

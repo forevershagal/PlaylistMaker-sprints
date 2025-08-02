@@ -85,6 +85,7 @@ class AudioPlayerFragment : Fragment() {
         viewModel.setTrackData(track)
         setupViews()
         setupObservers()
+        setupFavoriteButton()
     }
 
     private fun setupViews() {
@@ -93,7 +94,6 @@ class AudioPlayerFragment : Fragment() {
 
         binding.playButton.setOnClickListener {
             viewModel.playbackControl()
-
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -111,6 +111,20 @@ class AudioPlayerFragment : Fragment() {
 
         viewModel.audioPlayerScreenState.observe(viewLifecycleOwner) { state ->
             updatePlayerState(state)
+        }
+    }
+
+    private fun setupFavoriteButton() {
+        binding.favouritesButton.setOnClickListener {
+            viewModel.onFavouriteClicked()
+        }
+
+        viewModel.isFavourite.observe(viewLifecycleOwner) { isFavourite ->
+            if (isFavourite == true) {
+                binding.favouritesButton.setImageResource(R.drawable.pressed_favourite_button) // предполагаем, что есть такая иконка
+            } else {
+                binding.favouritesButton.setImageResource(R.drawable.favorites)
+            }
         }
     }
 

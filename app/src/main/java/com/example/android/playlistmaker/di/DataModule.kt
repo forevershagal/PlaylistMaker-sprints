@@ -1,9 +1,11 @@
 package com.example.android.playlistmaker.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.android.playlistmaker.app.Constants
 import com.example.android.playlistmaker.app.TrackMapper
 import com.example.android.playlistmaker.data.NetworkClient
+import com.example.android.playlistmaker.data.db.AppDatabase
 import com.example.android.playlistmaker.data.locale.SearchHistoryStorage
 import com.example.android.playlistmaker.data.locale.SearchHistoryStorageImpl
 import com.example.android.playlistmaker.data.network.ITunesApiService
@@ -69,10 +71,16 @@ val dataModule = module {
     }
 
     single<SearchRepository> {
-        SearchRepositoryImpl(get(), get(), get())
+        SearchRepositoryImpl(get(), get(), get(), get())
+    }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
     }
 
     single<NetworkChecker> {
         NetworkCheckerImpl(androidContext())
     }
 }
+
