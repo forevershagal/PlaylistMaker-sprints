@@ -1,7 +1,7 @@
 package com.example.android.playlistmaker.domain.impl
 
-import com.example.android.playlistmaker.domain.db.FavouriteTrackInteractor
-import com.example.android.playlistmaker.domain.db.FavouriteTrackRepository
+import com.example.android.playlistmaker.domain.db.favourite_track.FavouriteTrackInteractor
+import com.example.android.playlistmaker.domain.db.favourite_track.FavouriteTrackRepository
 import com.example.android.playlistmaker.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 

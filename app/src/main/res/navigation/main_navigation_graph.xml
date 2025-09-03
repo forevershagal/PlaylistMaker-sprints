@@ -34,6 +34,20 @@
     <fragment
         android:id="@+id/audioPlayerFragment"
         android:name="com.example.android.playlistmaker.ui.audio_player.fragment.AudioPlayerFragment"
-        android:label="AudioPlayerFragment" />
+        android:label="AudioPlayerFragment">
+        <action
+            android:id="@+id/action_audioPlayerFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.example.android.playlistmaker.ui.new_playlist.fragment.NewPlaylistFragment"
+        android:label="NewPlaylistFragment" >
+        <action
+            android:id="@+id/action_mediaLibrary_to_newPlaylist"
+            app:destination="@id/newPlaylistFragment" />
+    </fragment>
 
 </navigation>

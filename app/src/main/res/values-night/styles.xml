@@ -10,7 +10,16 @@
     </style>
 
     <style name="IconSettingsStyle">
-    <item name="android:icon">@drawable/ic_settings_dark</item>
+        <item name="android:icon">@drawable/ic_settings_dark</item>
+    </style>
+
+    <style name="NewPlaylistStyle">
+        <item name="android:color">@color/black_for_settings</item>
+    </style>
+
+    <style name="UpdateButtonSecondary">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black_for_settings</item>
     </style>
 
 </resources>

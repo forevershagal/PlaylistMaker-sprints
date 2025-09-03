@@ -11,6 +11,7 @@ import com.example.android.playlistmaker.data.locale.SearchHistoryStorageImpl
 import com.example.android.playlistmaker.data.network.ITunesApiService
 import com.example.android.playlistmaker.data.network.RetrofitNetworkClient
 import com.example.android.playlistmaker.data.network.SearchHistoryRepositoryImpl
+import com.example.android.playlistmaker.data.playlist.impl.PlaylistRepositoryImpl
 import com.example.android.playlistmaker.data.search.SearchRepositoryImpl
 import com.example.android.playlistmaker.data.settings.impl.SettingsRepositoryImpl
 import com.example.android.playlistmaker.data.sharing.impl.ExternalNavigatorImpl
@@ -19,6 +20,9 @@ import com.example.android.playlistmaker.domain.search.SearchRepository
 import com.example.android.playlistmaker.domain.settings.SettingsRepository
 import com.example.android.playlistmaker.domain.sharing.ExternalNavigator
 import com.example.android.playlistmaker.data.utils.impl.NetworkCheckerImpl
+import com.example.android.playlistmaker.domain.db.playlist.PlaylistInteractor
+import com.example.android.playlistmaker.domain.db.playlist.PlaylistRepository
+import com.example.android.playlistmaker.domain.impl.PlaylistInteractorImpl
 import com.example.android.playlistmaker.domain.utils.NetworkChecker
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
@@ -76,8 +80,16 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
+
+    single { get<AppDatabase>().playlistDao() }
+    single { get<AppDatabase>().favouriteTrackDao() }
+
+
+    single<PlaylistRepository> { PlaylistRepositoryImpl(get(),get()) }
+    single<PlaylistInteractor> { PlaylistInteractorImpl(get(),get()) }
 
     single<NetworkChecker> {
         NetworkCheckerImpl(androidContext())

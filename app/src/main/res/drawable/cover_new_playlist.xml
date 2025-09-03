@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <size
+                android:width="@dimen/size16"
+                android:height="@dimen/size16"/>
+            <stroke
+                android:color="@color/switch_thumb_inactive_color"
+                android:width="@dimen/size17"
+                android:dashWidth="@dimen/size12"
+                android:dashGap="@dimen/size12"/>
+            <corners android:radius="@dimen/margin_start_second"/>
+        </shape>
+    </item>
+
+    <item
+        android:width="@dimen/size9"
+        android:height="@dimen/size9"
+        android:gravity="center"
+        android:drawable="@drawable/placeholder_new_playlist"/>
+</layer-list>
