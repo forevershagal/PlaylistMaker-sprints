@@ -13,6 +13,7 @@
     <dimen name="margin_top">24dp</dimen>
     <dimen name="margin_start">12dp</dimen>
     <dimen name="margin_start_second">8dp</dimen>
+    <dimen name="grid_spacing">8dp</dimen>
     <dimen name="margin_start_third">4dp</dimen>
     <dimen name="text_size_large">22sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
@@ -34,4 +35,8 @@
     <dimen name="size11">32dp</dimen>
     <dimen name="size12">30dp</dimen>
     <dimen name="size13">15dp</dimen>
+    <dimen name="size14">210dp</dimen>
+    <dimen name="size15">346dp</dimen>
+    <dimen name="size16">312dp</dimen>
+    <dimen name="size17">1dp</dimen>
 </resources>

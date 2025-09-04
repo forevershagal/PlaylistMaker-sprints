@@ -102,6 +102,11 @@
         <item name="android:textColor">?attr/updateButtonTextColor</item>
     </style>
 
+    <style name="UpdateButtonSecondary">
+        <item name="android:backgroundTint">@color/black_for_settings</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="SettingsButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">60dp</item>
@@ -305,6 +310,10 @@
 
     <style name="IconSettingsStyle">
         <item name="android:icon">@drawable/ic_settings_light</item>
+    </style>
+
+    <style name="NewPlaylistStyle">
+        <item name="android:color">@color/white</item>
     </style>
 
 </resources>

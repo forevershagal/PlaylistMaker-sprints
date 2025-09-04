@@ -2,7 +2,7 @@ package com.example.android.playlistmaker.data.favourite.impl
 
 import com.example.android.playlistmaker.data.converter.FavouriteTrackDbConvertor
 import com.example.android.playlistmaker.data.db.AppDatabase
-import com.example.android.playlistmaker.domain.db.FavouriteTrackRepository
+import com.example.android.playlistmaker.domain.db.favourite_track.FavouriteTrackRepository
 import com.example.android.playlistmaker.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
