@@ -70,10 +70,12 @@ class AudioPlayerViewModel(
     fun loadPlaylists() {
         viewModelScope.launch {
             try {
-                val playlists = playlistInteractor.getAllPlaylists().map {
-                    it.toDomain(playlistInteractor.getPlaylistTrackCount(it))
+                playlistInteractor.getAllPlaylists().collect { playlistEntities ->
+                    val playlistsDomain = playlistEntities.map { entity ->
+                        entity.toDomain(playlistInteractor.getPlaylistTrackCount(entity))
+                    }
+                    _playlists.postValue(playlistsDomain)
                 }
-                _playlists.postValue(playlists)
             } catch (e: Exception) {
                 _addTrackStatus.postValue(AddTrackStatus.Error(R.string.no_playlist.toString()))
             }

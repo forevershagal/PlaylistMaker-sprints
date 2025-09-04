@@ -18,8 +18,11 @@ class PlaylistViewModel(
 
     fun loadPlaylists() {
         viewModelScope.launch {
-            _playlists.value = interactor.getAllPlaylists().map {
-                it.toDomain(interactor.getPlaylistTrackCount(it))
+            interactor.getAllPlaylists().collect { playlistEntities ->
+                val playlistDomain = playlistEntities.map { entity ->
+                    entity.toDomain(interactor.getPlaylistTrackCount(entity))
+                }
+                _playlists.value = playlistDomain
             }
         }
     }

@@ -9,28 +9,25 @@ import com.example.android.playlistmaker.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class PlaylistRepositoryImpl(
     private val playlistDao: PlaylistDao,
     private val gson: Gson
 ) : PlaylistRepository {
+
     override suspend fun createPlaylist(
         name: String,
         description: String,
         coverPath: String?
     ): Long = withContext(Dispatchers.IO) {
-        try {
-            val playlist = PlaylistEntity(
-                id = 0,
-                name = name,
-                description = description,
-                coverPath = coverPath
-            )
-            playlistDao.insert(playlist)
-        } catch (e: Exception) {
-            throw e
-        }
+        val playlist = PlaylistEntity(
+            name = name,
+            description = description,
+            coverPath = coverPath
+        )
+        playlistDao.insert(playlist)
     }
 
     override suspend fun updatePlaylist(playlist: PlaylistEntity) = withContext(Dispatchers.IO) {
@@ -41,23 +38,23 @@ class PlaylistRepositoryImpl(
         playlistDao.getById(id)
     }
 
-    override suspend fun getPlaylistTracksCount(playlist: PlaylistEntity): Int {
-        return withContext(Dispatchers.IO) {
-            val trackIds = try {
-                gson.fromJson<List<String>>(
-                    playlist.trackIds,
-                    object : TypeToken<List<String>>() {}.type
-                )?: emptyList()
-            } catch (e: Exception) {
-                emptyList<List<String>>()
-            }
-            trackIds.count()
+    override suspend fun getPlaylistTracksCount(playlist: PlaylistEntity): Int = withContext(Dispatchers.IO) {
+        val trackIds = try {
+            gson.fromJson<List<String>>(
+                playlist.trackIds,
+                object : TypeToken<List<String>>() {}.type
+            ) ?: emptyList()
+        } catch (e: Exception) {
+            emptyList()
         }
+        trackIds.count()
     }
 
-    override suspend fun getAllPlaylists() = withContext(Dispatchers.IO) {
-        playlistDao.getAll()
+    // Возвращаем Flow
+    override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
+        return playlistDao.getAll()
     }
+
     override suspend fun addTrackToPlaylist(playlist: PlaylistEntity, track: Track): AddTrackResult {
         return withContext(Dispatchers.IO) {
             try {
@@ -65,16 +62,14 @@ class PlaylistRepositoryImpl(
                     gson.fromJson<List<String>>(
                         playlist.trackIds,
                         object : TypeToken<List<String>>() {}.type
-                    )?: emptyList()
+                    ) ?: emptyList()
                 } catch (e: Exception) {
-                    emptyList<List<String>>()
+                    emptyList()
                 }
-                if (trackIds.contains(track.trackId)) {
-                    return@withContext AddTrackResult.AlreadyExists
-                }
+
+                if (trackIds.contains(track.trackId)) return@withContext AddTrackResult.AlreadyExists
 
                 playlistDao.insertTrack(track.toPlaylistTrackEntity())
-
                 val updatedTrackIds = trackIds + track.trackId
                 playlistDao.addTrackToPlaylist(
                     playlist.id,

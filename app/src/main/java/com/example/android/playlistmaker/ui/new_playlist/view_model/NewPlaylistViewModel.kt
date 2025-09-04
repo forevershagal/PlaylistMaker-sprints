@@ -23,7 +23,7 @@ class NewPlaylistViewModel(private val playlistInteractor: PlaylistInteractor) :
     var playlistName: String = ""
         set(value) {
             field = value
-            _isCreateButtonEnabled.value = value.isNotEmpty()
+            _isCreateButtonEnabled.value = value.trim().isNotEmpty()
         }
     var playlistDescription: String = ""
 

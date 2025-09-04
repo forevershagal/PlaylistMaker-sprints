@@ -7,6 +7,7 @@ import com.example.android.playlistmaker.domain.db.playlist.PlaylistRepository
 import com.example.android.playlistmaker.domain.models.Playlist
 import com.example.android.playlistmaker.domain.models.Track
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 
 class PlaylistInteractorImpl(
     private val repository: PlaylistRepository,
@@ -25,7 +26,9 @@ class PlaylistInteractorImpl(
     override suspend fun getPlaylistTrackCount(playlist: PlaylistEntity): Int =
         repository.getPlaylistTracksCount(playlist)
 
-    override suspend fun getAllPlaylists() = repository.getAllPlaylists()
+    override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
+        return repository.getAllPlaylists()
+    }
 
     override suspend fun addTrackToPlaylist(playlist: Playlist, track: Track): AddTrackResult {
         val playlistEntity = PlaylistEntity(
@@ -35,7 +38,6 @@ class PlaylistInteractorImpl(
             coverPath = playlist.coverPath,
             trackIds = playlist.trackIds
         )
-
         return repository.addTrackToPlaylist(playlistEntity, track)
     }
 }
