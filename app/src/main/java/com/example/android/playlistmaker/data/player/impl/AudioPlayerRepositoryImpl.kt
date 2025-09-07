@@ -6,24 +6,36 @@ import com.example.android.playlistmaker.domain.player.AudioPlayerRepository
 class AudioPlayerRepositoryImpl(
     private val mediaPlayer: MediaPlayer
 ) : AudioPlayerRepository {
+
     private var prepared = false
     private var onPreparedListener: (() -> Unit)? = null
     private var onCompletionListener: (() -> Unit)? = null
 
     override fun preparePlayer(url: String) {
+        if (url.isBlank()) {
+            onPreparedListener?.invoke()
+            return
+        }
+
         releasePlayer()
-        mediaPlayer.apply {
-            setDataSource(url)
-            setOnPreparedListener {
-                prepared = true
-                onPreparedListener?.invoke()
+        try {
+            mediaPlayer.apply {
+                setDataSource(url)
+                setOnPreparedListener {
+                    prepared = true
+                    onPreparedListener?.invoke()
+                }
+                setOnCompletionListener {
+                    onCompletionListener?.invoke()
+                }
+                prepareAsync()
             }
-            setOnCompletionListener {
-                onCompletionListener?.invoke()
-            }
-            prepareAsync()
+        } catch (e: Exception) {
+            releasePlayer()
+            onPreparedListener?.invoke()
         }
     }
+
 
     override fun startPlayer() {
         mediaPlayer.start()

@@ -1,5 +1,6 @@
 package com.example.android.playlistmaker.ui.new_playlist.fragment
 
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Environment
@@ -13,16 +14,19 @@ import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.android.playlistmaker.ui.new_playlist.view_model.NewPlaylistViewModel
 import com.example.playlistmaker.databinding.FragmentNewPlaylistBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,21 +36,24 @@ class NewPlaylistFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<NewPlaylistViewModel>()
 
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            try {
-                binding.placeholderNewPlaylist.setImageURI(uri)
-                val picturesDir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                viewModel.coverPath = viewModel.saveImageToPrivateStorage(
-                    uri,
-                    picturesDir!!,
-                    requireContext())
-                viewModel.hasUnsavedChanges = true
-            } catch (e: Exception) {
-                // Handle error
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                try {
+                    binding.placeholderNewPlaylist.setImageURI(uri)
+                    val picturesDir =
+                        requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                    viewModel.coverPath = viewModel.saveImageToPrivateStorage(
+                        uri,
+                        picturesDir!!,
+                        requireContext()
+                    )
+                    viewModel.hasUnsavedChanges = true
+                } catch (e: Exception) {
+                    // Handle error
+                }
             }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +76,30 @@ class NewPlaylistFragment : Fragment() {
                 systemBars.bottom
             )
             insets
+        }
+
+        val playlistId = arguments?.getLong("edit_playlist_id") ?: 0L
+        if (playlistId != 0L) {
+            viewModel.initEditingMode(playlistId)
+            binding.textView2.text = getString(R.string.edit)
+            binding.createNewPlaylistButton.text = getString(R.string.save)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.playlistData.collectLatest { playlist ->
+                    playlist?.let {
+                        binding.nameNewPlaylist.setText(it.name)
+                        binding.descriptionNewPlaylist.setText(it.description ?: "")
+
+                        if (!it.coverPath.isNullOrEmpty()) {
+                            Glide.with(requireContext())
+                                .load(it.coverPath)
+                                .into(binding.placeholderNewPlaylist)
+                        } else {
+                            binding.placeholderNewPlaylist.setImageResource(R.drawable.placeholder4)
+                        }
+                    }
+                }
+            }
         }
 
         setupTextWatchers()
@@ -97,19 +128,36 @@ class NewPlaylistFragment : Fragment() {
         }
 
         binding.backButtonPlayer.setOnClickListener {
-            checkUnsavedChangesAndNavigate()
+            lifecycleScope.launch {
+                val isEditing = viewModel.editingPlaylistId.value != 0L
+                if (isEditing && !viewModel.hasUnsavedChanges) {
+                    findNavController().navigateUp()
+                } else {
+                    checkUnsavedChangesAndNavigate()
+                }
+            }
         }
 
         binding.createNewPlaylistButton.setOnClickListener {
             viewModel.playlistName = binding.nameNewPlaylist.text.toString()
             viewModel.playlistDescription = binding.descriptionNewPlaylist.text.toString()
 
+            val isEditing = viewModel.editingPlaylistId.value != 0L
             viewModel.savePlaylist(
                 viewModel.playlistName,
                 viewModel.playlistDescription,
-                onSuccess = {playlistId ->
+                onSuccess = { playlistId ->
                     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                        showToast(getString(R.string.playlist_created))
+                        val message = if (isEditing) {
+                            getString(R.string.playlist_edited)
+                        } else {
+                            getString(R.string.playlist_created)
+                        }
+                        showToast(message)
+                        parentFragmentManager.setFragmentResult(
+                            "playlist_updated",
+                            bundleOf("playlist_id" to playlistId)
+                        )
                         findNavController().navigateUp()
                     }
                 },
@@ -143,7 +191,10 @@ class NewPlaylistFragment : Fragment() {
                 binding.createNewPlaylistButton.isEnabled = isEnabled
                 binding.createNewPlaylistButton.backgroundTintList = ColorStateList.valueOf(
                     if (isEnabled) {
-                        ContextCompat.getColor(requireContext(), R.color.switch_thumb_active_color)
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.switch_thumb_active_color
+                        )
                     } else {
                         ContextCompat.getColor(requireContext(), R.color.text_color_hint)
                     }
@@ -165,7 +216,7 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun showExitDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.MyAlertDialogTheme)
             .setTitle(getString(R.string.exit_dialog_title))
             .setMessage(getString(R.string.exit_dialog_message))
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
@@ -183,6 +234,13 @@ class NewPlaylistFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requireActivity().intent?.getBooleanExtra("playlist_updated", false) == true) {
+            requireActivity().intent.removeExtra("playlist_updated")
+        }
     }
 
     companion object {

@@ -58,4 +58,14 @@
     <string name="track_in_playlist">Добавлено в плейлист %s</string>
     <string name="track_already_in_playlist">Трек уже добавлен в плейлист  %s</string>
     <string name="error">Ошибка: %s</string>
+    <string name="want_to_delete">Хотите удалить трек?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="edit_info">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="no_tracks_to_share">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="want_to_delete_playlist">Хотите удалить плейлист?</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
+    <string name="playlist_edited">Плейлист отредактирован</string>
 </resources>

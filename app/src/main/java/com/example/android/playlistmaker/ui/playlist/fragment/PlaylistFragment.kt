@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
-import com.example.android.playlistmaker.ui.playlist.view_model.PlaylistViewModel
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
+import com.example.playlistmaker.ui.playlist.adapter.PlaylistAdapter
+import com.example.android.playlistmaker.ui.playlist.view_model.PlaylistViewModel
 import com.example.android.playlistmaker.domain.models.Playlist
 import com.example.android.playlistmaker.utils.GridSpacingItemDecoration
+import com.example.android.playlistmaker.ui.media_library.fragment.MediaLibraryFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import androidx.core.os.bundleOf
-import com.example.playlistmaker.ui.playlist.adapter.PlaylistAdapter
 
 class PlaylistFragment : Fragment() {
 
@@ -22,7 +23,7 @@ class PlaylistFragment : Fragment() {
         private const val ARGS_PLAYLIST_ID = "playlist_id"
         private const val SPAN_COUNT = 2
 
-        fun createArgs(playlistId: String): Bundle =
+        fun createArgs(playlistId: Long): Bundle =
             bundleOf(ARGS_PLAYLIST_ID to playlistId)
 
         fun newInstance() = PlaylistFragment()
@@ -54,6 +55,10 @@ class PlaylistFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = PlaylistAdapter { playlist ->
+            (requireParentFragment() as? MediaLibraryFragment)?.findNavController()?.navigate(
+                R.id.action_mediaLibraryFragment_to_playlistInfoFragment,
+                bundleOf("playlist_id" to playlist.id.toLong())
+            )
         }
 
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.grid_spacing)
@@ -70,7 +75,7 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.playlists.observe( viewLifecycleOwner) {
+        viewModel.playlists.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 showEmptyState()
             } else {
@@ -104,5 +109,12 @@ class PlaylistFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun openPlaylistInfo(playlistId: Long) {
+        parentFragment?.findNavController()?.navigate(
+            R.id.action_mediaLibraryFragment_to_playlistInfoFragment,
+            bundleOf("playlist_id" to playlistId)
+        )
     }
 }

@@ -14,7 +14,6 @@
         <item name="searchBarBackground">@color/search_bar_background</item>
         <item name="searchBarElementColor">@color/search_bar_text_color</item>
         <item name="trackTitle">@color/black</item>
-        <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="updateButtonBackground">@color/alternative_black</item>
@@ -46,5 +45,16 @@
         <item name="playerIconsMediaColor">@color/alternative_black</item>
 
         <item name="colorIconArrowBack">@color/alternative_black</item>
+        <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
+    </style>
+
+    <!-- Тема для диалогов -->
+    <style name="MyAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="actionButtonStyle">@style/MyAlertDialogButton</item>
+    </style>
+
+    <!-- Кнопки диалогов -->
+    <style name="MyAlertDialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue</item>
     </style>
 </resources>

@@ -33,4 +33,19 @@ interface PlaylistDao {
 
     @Query("UPDATE playlists SET trackIds = :trackIds WHERE id = :playlistId")
     fun addTrackToPlaylist(playlistId: Long, trackIds: String): Int
+
+    @Query("SELECT * FROM playlist_tracks WHERE trackId IN (:trackIds)")
+    fun getTracksByPlaylist(trackIds: List<String>): List<PlaylistTrackEntity>
+
+    @Query("SELECT trackTime FROM playlist_tracks WHERE trackId IN (:trackIds)")
+    fun getTrackDurations(trackIds: List<String>): List<String>
+
+    @Query("DELETE FROM playlist_tracks WHERE trackId = :trackId")
+    fun deleteTrack(trackId: String)
+
+    @Query("SELECT trackId FROM playlist_tracks WHERE trackId = :trackId LIMIT 1")
+    fun isTrackInAnyPlaylist(trackId: String): String?
+
+    @Query("DELETE FROM playlists WHERE id = :playlistId")
+    fun deletePlaylist(playlistId: Long):Int
 }
