@@ -46,6 +46,14 @@
 
         <item name="colorIconArrowBack">@color/alternative_black</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
+
+        <item name="bottomSheetColor">@color/white</item>
+        <item name="rounder_bsh">@color/edit_text_grey</item>
+
+        <item name="colorBackground">@color/edit_text_grey</item>
+
+        <item name="colorSurface">@color/edit_text_grey</item>
+        <item name="textColorSecondaryPlInfo">@color/alternative_black</item>
     </style>
 
     <!-- Тема для диалогов -->
@@ -57,4 +65,11 @@
     <style name="MyAlertDialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/blue</item>
     </style>
+
+    <style name="Theme.PlaylistMaker.PlaylistInfo" parent="Theme.PlaylistMaker">
+        <!-- Устанавливаем фон ОКНА на нужный светло-серый цвет -->
+        <item name="android:windowBackground">@color/edit_text_grey</item>
+
+    </style>
+
 </resources>

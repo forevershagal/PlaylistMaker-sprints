@@ -34,23 +34,36 @@ class PlaylistInfoViewModel(
     fun loadPlaylist(playlistId: Long) {
         viewModelScope.launch {
             val playlistEntity = playlistInteractor.getPlaylist(playlistId)
-            playlistEntity?.let {
-                val trackCount = playlistInteractor.getPlaylistTrackCount(it)
+            playlistEntity?.let { entity ->
+
+                // Обновляем LiveData плейлиста
+                val trackCount = playlistInteractor.getPlaylistTrackCount(entity)
                 _playlist.postValue(
                     Playlist(
-                        id = playlistEntity.id,
-                        name = playlistEntity.name,
-                        description = playlistEntity.description,
-                        coverPath = playlistEntity.coverPath,
+                        id = entity.id,
+                        name = entity.name,
+                        description = entity.description,
+                        coverPath = entity.coverPath,
                         trackCount = trackCount,
-                        trackIds = playlistEntity.trackIds
+                        trackIds = entity.trackIds
                     )
                 )
-                val trackIds = gson.fromJson<List<String>>(it.trackIds, object : TypeToken<List<String>>() {}.type)
-                    ?: emptyList()
-                val tracks = playlistInteractor.getTracksByPlaylist(trackIds).map { it.toTrack() }
-                _tracks.postValue(tracks)
-                calculateDuration(it.trackIds)
+
+                // Преобразуем trackIds из JSON
+                val trackIds: List<String> = gson.fromJson(
+                    entity.trackIds,
+                    object : TypeToken<List<String>>() {}.type
+                ) ?: emptyList()
+
+                // Получаем треки и сортируем: последние добавленные вверху
+                val tracksList = playlistInteractor.getTracksByPlaylist(trackIds)
+                    .map { it.toTrack() }
+                    .sortedByDescending { trackIds.indexOf(it.trackId) }
+
+                _tracks.postValue(tracksList)
+
+                // Обновляем длительность
+                calculateDuration(entity.trackIds)
             }
         }
     }
@@ -58,7 +71,7 @@ class PlaylistInfoViewModel(
     fun calculateDuration(trackIdsJson: String) {
         viewModelScope.launch {
             try {
-                val trackIds = gson.fromJson<List<String>>(
+                val trackIds: List<String> = gson.fromJson(
                     trackIdsJson,
                     object : TypeToken<List<String>>() {}.type
                 ) ?: emptyList()
@@ -74,7 +87,10 @@ class PlaylistInfoViewModel(
 
     fun deleteTrack(playlistId: Long, trackId: String) {
         viewModelScope.launch {
+            // Удаляем трек через репозиторий
             repository.deleteTrackFromPlaylist(playlistId, trackId)
+
+            // Перезагружаем плейлист с сортировкой
             loadPlaylist(playlistId)
         }
     }

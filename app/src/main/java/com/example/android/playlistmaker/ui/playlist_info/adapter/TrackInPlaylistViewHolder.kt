@@ -16,28 +16,31 @@ class TrackInPlaylistViewHolder(
     private val onTrackLongClick: (Track) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(model: Track) {
+    fun bind(track: Track) {
+        // Клик по треку
         binding.root.setOnClickListener {
-            onClick(model)
+            onClick(track)
         }
+
+        // Долгий клик для удаления
         binding.root.setOnLongClickListener {
-            onTrackLongClick(model)
+            onTrackLongClick(track)
             true
         }
 
-        binding.trackName.text = model.trackName
-        val formattedTime = model.trackTimeMillis
-        binding.trackInfo.text = "${model.artistName}   •   $formattedTime"
+        // Название и инфо
+        binding.trackName.text = track.trackName
+        binding.trackInfo.text = "${track.artistName}   •   ${track.trackTimeMillis}"
 
+        // Картинка с Glide и скруглением
         Glide.with(binding.root)
-            .load(model.artworkUrl100)
+            .load(track.artworkUrl100)
             .placeholder(R.drawable.track_avatar)
-            .transform(RoundedCorners(itemView.context.toPx(2)))
+            .transform(RoundedCorners(itemView.context.toPx(4))) // скругление 4dp
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(binding.trackIcon)
     }
-
 
     private fun formatTrackTime(millis: Long): String {
         val minutes = (millis / 1000) / 60
@@ -51,5 +54,4 @@ class TrackInPlaylistViewHolder(
             dp.toFloat(),
             resources.displayMetrics
         ).toInt()
-
 }

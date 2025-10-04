@@ -17,6 +17,10 @@ class RootActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        // ВОТ РЕШЕНИЕ: Устанавливаем нашу тему ДО создания View
+//        setTheme(R.style.Theme_PlaylistMaker_PlaylistInfo)
+
         binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

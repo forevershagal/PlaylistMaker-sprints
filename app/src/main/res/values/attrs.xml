@@ -32,5 +32,13 @@
         <attr name="clearButtonColor" format="color"/>
 
         <attr name="colorIconArrowBack" format="color"/>
+
+        <attr name="bottomSheetColor" format="color" />
+        <attr name="rounder_bsh" format="color" />
+        <attr name="stateBoxStrokeColor" format="color"/>
+        <attr name="colorBackground" format="color"/>
+
+        <attr name="colorSurface" format="color"/>
+        <attr name="textColorSecondaryPlInfo" format="color"/>
     </declare-styleable>
 </resources>

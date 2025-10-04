@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,18 +16,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.playlistmaker.databinding.FragmentPlaylistInfoBinding
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
+import com.example.playlistmaker.databinding.FragmentPlaylistInfoBinding
 import com.example.android.playlistmaker.domain.models.Playlist
 import com.example.android.playlistmaker.domain.models.Track
 import com.example.android.playlistmaker.ui.audio_player.fragment.AudioPlayerFragment
-import com.example.android.playlistmaker.ui.audio_player.fragment.AudioPlayerFragment.Companion
-import com.example.android.playlistmaker.ui.new_playlist.view_model.NewPlaylistViewModel
 import com.example.android.playlistmaker.ui.playlist_info.adapter.TrackInPlaylistAdapter
 import com.example.android.playlistmaker.ui.playlist_info.view_model.PlaylistInfoViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class PlaylistInfoFragment : Fragment() {
     private var _binding: FragmentPlaylistInfoBinding? = null
@@ -54,9 +55,10 @@ class PlaylistInfoFragment : Fragment() {
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
-                systemBars.bottom
+                0
             )
             insets
+
         }
 
         parentFragmentManager.setFragmentResultListener("playlist_updated", viewLifecycleOwner) { _, bundle ->
@@ -142,7 +144,7 @@ class PlaylistInfoFragment : Fragment() {
     }
 
     private fun showDeleteDialog(track: Track) {
-        MaterialAlertDialogBuilder(requireContext(), R.style.MyAlertDialogTheme)
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.want_to_delete))
             .setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
@@ -264,11 +266,11 @@ class PlaylistInfoFragment : Fragment() {
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         binding.overlay.visibility = View.VISIBLE
                     }
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        binding.overlay.visibility = View.GONE
-                    }
+//                    BottomSheetBehavior.STATE_HIDDEN -> {
+//                        binding.overlay.visibility = View.GONE
+//                    }
                     else -> {
-                        binding.overlay.visibility = View.VISIBLE
+                        binding.overlay.visibility = View.GONE
                     }
                 }
             }

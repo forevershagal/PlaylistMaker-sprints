@@ -6,6 +6,7 @@
     <string name="settings">Настройки</string>
     <string name="dark_theme">Тёмная тема</string>
     <string name="share">Поделиться приложением</string>
+    <string name="just_share">Поделиться</string>
     <string name="share_image_description">Иконка "поделиться"</string>
     <string name="support">Написать в поддержку</string>
     <string name="support_image_description">Иконка "поддержка"</string>
