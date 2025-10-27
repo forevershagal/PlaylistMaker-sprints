@@ -13,7 +13,6 @@
         <item name="trackTitle">@color/white</item>
         <item name="PlaceholderTextColor">@color/white</item>
         <item name="android:backgroundTint">@color/alternative_black</item>
-        <item name="android:statusBarColor">@color/alternative_black</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="updateButtonBackground">@color/white</item>
@@ -25,8 +24,7 @@
         <item name="switchTrackColor">@color/switch_track_color_dark</item> ////
         <item name="switchThumbColor">@color/switch_thumb_color_dark</item>
 
-        <item name="colorPrimary">@color/black_app</item>
-        <item name="textColorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/blue</item>
         <item name="colorIconPrimary">@color/black_app</item>
         <item name="colorPrimaryVariant">@color/black_app</item>
         <item name="colorOnPrimary">@color/alternative_black</item>
@@ -45,5 +43,43 @@
         <item name="colorIconArrowBack">@color/white</item>
 
 
+        <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
+
+        <item name="bottomSheetColor">@color/edit_text_grey</item>
+        <item name="rounder_bsh">@color/white</item>
+
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+
+
+
+        <item name="colorSurface">@color/edit_text_grey</item>
+        <item name="android:windowBackground">@color/edit_text_grey</item>
+        <item name="android:navigationBarColor">@color/edit_text_grey</item>
+        <item name="colorBackground">@color/edit_text_grey</item>
+        <item name="textColorSecondaryPlInfo">@color/alternative_black</item>
+        <item name="playlistInfoBackground">#E6E8EB</item>
     </style>
+
+    <!-- Тема для диалогов -->
+    <style name="MyAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="actionButtonStyle">@style/MyAlertDialogButton</item>
+    </style>
+
+    <!-- Кнопки диалогов -->
+    <style name="MyAlertDialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="Theme.PlaylistMaker.PlaylistInfo" parent="Theme.PlaylistMaker">
+        <!-- Устанавливаем фон ОКНА на нужный светло-серый цвет -->
+        <item name="android:windowBackground">@color/edit_text_grey</item>
+        <!-- Override background attributes specifically for PlaylistInfo -->
+        <item name="backgroundColorPrimary">#E6E8EB</item>
+        <item name="android:backgroundTint">#E6E8EB</item>
+        <item name="colorPrimaryVariant">@color/alternative_black</item>
+        <item name="colorSecondaryVariant">@color/alternative_black</item>
+        <item name="bottomSheetColor">#E6E8EB</item>
+    </style>
+
 </resources>

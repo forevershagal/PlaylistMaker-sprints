@@ -1,6 +1,7 @@
 package com.example.android.playlistmaker.domain.db.playlist
 
 import com.example.android.playlistmaker.data.db.entity.PlaylistEntity
+import com.example.android.playlistmaker.data.db.entity.PlaylistTrackEntity
 import com.example.android.playlistmaker.domain.models.Playlist
 import com.example.android.playlistmaker.domain.models.Track
 import kotlinx.coroutines.flow.Flow
@@ -12,4 +13,7 @@ interface PlaylistInteractor {
     suspend fun getPlaylistTrackCount(playlist: PlaylistEntity): Int
     fun getAllPlaylists(): Flow<List<PlaylistEntity>>
     suspend fun addTrackToPlaylist(playlist: Playlist, track: Track): AddTrackResult
+    suspend fun getTrackById(trackId: String): PlaylistTrackEntity?
+    suspend fun getTracksByPlaylist(trackIds: List<String>): List<PlaylistTrackEntity>
+    suspend fun calculateTotalDuration(trackIds: List<String>): String
 }

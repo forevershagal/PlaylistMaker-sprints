@@ -21,6 +21,7 @@
     <dimen name="text_size">19sp</dimen>
     <dimen name="text_size1">14sp</dimen>
     <dimen name="text_size2">13sp</dimen>
+    <dimen name="text_size3">18sp</dimen>
     <dimen name="corner_radius_size">11dp</dimen>
     <dimen name="size_first">24dp</dimen>
     <dimen name="size_second">48dp</dimen>
@@ -39,4 +40,6 @@
     <dimen name="size15">346dp</dimen>
     <dimen name="size16">312dp</dimen>
     <dimen name="size17">1dp</dimen>
+    <dimen name="cover_corner_radius">8dp</dimen>
+    <dimen name="bottom_sheet_peek_height">150dp</dimen>
 </resources>

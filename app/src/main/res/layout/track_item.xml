@@ -36,5 +36,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:drawableEnd="@drawable/next"
-        android:paddingEnd="12dp" />
+        android:paddingEnd="12dp"
+        android:clickable="false"
+        android:focusable="false"/>
 </FrameLayout>

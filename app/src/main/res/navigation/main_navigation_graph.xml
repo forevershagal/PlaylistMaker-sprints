@@ -13,14 +13,17 @@
             app:destination="@id/audioPlayerFragment"/>
     </fragment>
 
+    <action
+        android:id="@+id/action_global_audioPlayerFragment"
+        app:destination="@id/audioPlayerFragment"/>
 
     <fragment
         android:id="@+id/mediaLibraryFragment"
         android:name="com.example.android.playlistmaker.ui.media_library.fragment.MediaLibraryFragment"
         android:label="MediaLibraryFragment" >
         <action
-            android:id="@+id/action_global_audioPlayerFragment"
-            app:destination="@id/audioPlayerFragment" />
+            android:id="@+id/action_mediaLibraryFragment_to_playlistInfoFragment"
+            app:destination="@id/playlistInfoFragment" />
     </fragment>
 
 
@@ -45,9 +48,38 @@
         android:id="@+id/newPlaylistFragment"
         android:name="com.example.android.playlistmaker.ui.new_playlist.fragment.NewPlaylistFragment"
         android:label="NewPlaylistFragment" >
+        <argument
+            android:name="edit_playlist_id"
+            app:argType="long"
+            android:defaultValue="0L" />
         <action
             android:id="@+id/action_mediaLibrary_to_newPlaylist"
             app:destination="@id/newPlaylistFragment" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/playlistInfoFragment"
+        android:name="com.example.android.playlistmaker.ui.playlist_info.fragment.PlaylistInfoFragment"
+        android:label="PlaylistInfoFragment">
+        <argument
+            android:name="playlist_id"
+            android:defaultValue="0L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment" />
+
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment">
+            <argument
+                android:name="edit_playlist_id"
+                app:argType="long"
+                android:defaultValue="0L" />
+        </action>
+
+    </fragment>
+
 
 </navigation>

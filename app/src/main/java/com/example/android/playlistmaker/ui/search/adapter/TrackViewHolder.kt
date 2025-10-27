@@ -12,7 +12,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.android.playlistmaker.domain.models.Track
 
-class TrackViewHolder(itemView: View, private val onClick: (Track) -> Unit) : RecyclerView.ViewHolder(itemView) {
+class TrackViewHolder(
+    itemView: View,
+    private val onClick: (Track) -> Unit) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView
     private val artistNameView: TextView
     private val trackTimeView: TextView
