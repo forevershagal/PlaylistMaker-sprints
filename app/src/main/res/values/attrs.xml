@@ -40,5 +40,7 @@
 
         <attr name="colorSurface" format="color"/>
         <attr name="textColorSecondaryPlInfo" format="color"/>
+
+        <attr name="playlistInfoBackground" format="color" />
     </declare-styleable>
 </resources>

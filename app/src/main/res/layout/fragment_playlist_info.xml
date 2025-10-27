@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E6E8EB">
+    android:background="#E6E8EB"
+    android:forceDarkAllowed="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/edit_text_grey"/>
+            android:background="@color/edit_text_grey" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/backLayout"
@@ -50,7 +51,7 @@
             android:layout_marginTop="7dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backLayout" >
+            app:layout_constraintTop_toBottomOf="@+id/backLayout">
 
             <ImageView
                 android:id="@+id/placeholderNewPlaylist"
@@ -59,8 +60,9 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder4"
                 android:visibility="visible"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="-32dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

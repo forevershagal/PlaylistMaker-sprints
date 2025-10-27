@@ -3,13 +3,10 @@ package com.example.android.playlistmaker.ui.root
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityRootBinding
-import com.example.android.playlistmaker.ui.search.fragment.SearchFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RootActivity : AppCompatActivity() {
 
@@ -17,9 +14,6 @@ class RootActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        // ВОТ РЕШЕНИЕ: Устанавливаем нашу тему ДО создания View
-//        setTheme(R.style.Theme_PlaylistMaker_PlaylistInfo)
 
         binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,6 +28,9 @@ class RootActivity : AppCompatActivity() {
             when(destination.id) {
                 R.id.searchFragment, R.id.mediaLibraryFragment, R.id.settingsFragment -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
+                }
+                R.id.playlistInfoFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
                 }
                 else -> {
                     binding.bottomNavigationView.visibility = View.GONE
