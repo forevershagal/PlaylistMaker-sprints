@@ -58,7 +58,7 @@
         <item name="android:navigationBarColor">@color/edit_text_grey</item>
         <item name="colorBackground">@color/edit_text_grey</item>
         <item name="textColorSecondaryPlInfo">@color/alternative_black</item>
-
+        <item name="playlistInfoBackground">#E6E8EB</item>
     </style>
 
     <!-- Тема для диалогов -->
@@ -74,7 +74,12 @@
     <style name="Theme.PlaylistMaker.PlaylistInfo" parent="Theme.PlaylistMaker">
         <!-- Устанавливаем фон ОКНА на нужный светло-серый цвет -->
         <item name="android:windowBackground">@color/edit_text_grey</item>
-
+        <!-- Override background attributes specifically for PlaylistInfo -->
+        <item name="backgroundColorPrimary">#E6E8EB</item>
+        <item name="android:backgroundTint">#E6E8EB</item>
+        <item name="colorPrimaryVariant">@color/alternative_black</item>
+        <item name="colorSecondaryVariant">@color/alternative_black</item>
+        <item name="bottomSheetColor">#E6E8EB</item>
     </style>
 
 </resources>

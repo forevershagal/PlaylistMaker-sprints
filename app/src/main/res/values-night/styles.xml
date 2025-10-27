@@ -26,4 +26,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.RoundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/cover_corner_radius</item>
+    </style>
 </resources>

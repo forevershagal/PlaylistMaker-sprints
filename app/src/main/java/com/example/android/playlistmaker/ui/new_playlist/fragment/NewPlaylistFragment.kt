@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+// import com.bumptech.glide.load.resource.bitmap.RoundedCorners // <-- ЭТО БОЛЬШЕ НЕ НУЖНО
 import com.example.playlistmaker.R
 import com.example.android.playlistmaker.ui.new_playlist.view_model.NewPlaylistViewModel
 import com.example.playlistmaker.databinding.FragmentNewPlaylistBinding
@@ -40,7 +41,11 @@ class NewPlaylistFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 try {
-                    binding.placeholderNewPlaylist.setImageURI(uri)
+
+                    Glide.with(requireContext())
+                        .load(uri)
+                        .into(binding.placeholderNewPlaylist)
+
                     val picturesDir =
                         requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                     viewModel.coverPath = viewModel.saveImageToPrivateStorage(
@@ -84,6 +89,8 @@ class NewPlaylistFragment : Fragment() {
             binding.textView2.text = getString(R.string.edit)
             binding.createNewPlaylistButton.text = getString(R.string.save)
 
+            // val radius = resources.getDimensionPixelSize(R.dimen.cover_corner_radius) // <-- УБРАТЬ
+
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.playlistData.collectLatest { playlist ->
                     playlist?.let {
@@ -93,6 +100,7 @@ class NewPlaylistFragment : Fragment() {
                         if (!it.coverPath.isNullOrEmpty()) {
                             Glide.with(requireContext())
                                 .load(it.coverPath)
+                                // .transform(RoundedCorners(radius)) // <-- УБРАТЬ: ShapeableImageView сам закруглит
                                 .into(binding.placeholderNewPlaylist)
                         } else {
                             binding.placeholderNewPlaylist.setImageResource(R.drawable.placeholder4)
@@ -122,7 +130,8 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.coverNewPlaylistLayout.setOnClickListener {
+        // !!! Клик теперь обрабатывает сам ShapeableImageView
+        binding.placeholderNewPlaylist.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             viewModel.hasUnsavedChanges = true
         }
